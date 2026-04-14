@@ -116,6 +116,17 @@ const BusinessCardsPage: NextPage = () => {
                       card.twitter,
                     ].filter((value) => !!value && value.trim() !== "").length;
 
+                    const linksLabelParts: string[] = [];
+                    if (card.website) {
+                      linksLabelParts.push("Website");
+                    }
+                    if (card.linkedin) {
+                      linksLabelParts.push("LinkedIn");
+                    }
+                    if (card.twitter) {
+                      linksLabelParts.push("X / Twitter");
+                    }
+
                     return (
                       <article
                         key={card.id}
@@ -175,29 +186,17 @@ const BusinessCardsPage: NextPage = () => {
                             <span>
                               {linksCount} link{linksCount === 1 ? "" : "s"}
                             </span>
-                            <span>
-                              {card.website ? "Website" : ""}
-                              {card.linkedin
-                                ? card.website
-                                  ? " · LinkedIn"
-                                  : "LinkedIn"
-                                : ""}
-                              {card.twitter
-                                ? card.website || card.linkedin
-                                  ? " · X / Twitter"
-                                  : "X / Twitter"
-                                : ""}
-                            </span>
+                            <span>{linksLabelParts.join(" · ")}</span>
                           </div>
                         </div>
 
                         <div className="mt-3 flex items-center justify-between">
-                          <button
-                            type="button"
+                          <Link
+                            href={`/business-cards/${card.id}`}
                             className="inline-flex items-center justify-center rounded-full bg-primary px-3 py-1 text-[11px] font-medium text-primary-foreground shadow-sm hover:bg-primary/90"
                           >
                             Edit card
-                          </button>
+                          </Link>
                           <span className="text-[10px] text-muted-foreground">
                             Mock only, no real edits
                           </span>
