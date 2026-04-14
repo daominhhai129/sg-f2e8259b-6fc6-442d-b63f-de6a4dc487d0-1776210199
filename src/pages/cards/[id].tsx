@@ -11,6 +11,8 @@ import {
   type SupportedLanguage,
 } from "@/components/admin/adminData";
 
+type CardSection = "home" | "about" | "video" | "shop";
+
 interface CardPreviewPageProps {
   card: BusinessCard | null;
   owner: AdminUser | null;
@@ -25,11 +27,18 @@ interface ContactItem {
 }
 
 const languages: SupportedLanguage[] = ["vi", "en", "zh"];
+const sections: { id: CardSection; label: string }[] = [
+  { id: "home", label: "Home" },
+  { id: "about", label: "Giới thiệu" },
+  { id: "video", label: "Video" },
+  { id: "shop", label: "Shop" },
+];
 
 const CardPreviewPage: NextPage<CardPreviewPageProps> = ({ card, owner }) => {
   const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>(
     card?.defaultLanguage ?? "vi"
   );
+  const [activeSection, setActiveSection] = useState<CardSection>("home");
 
   if (!card) {
     return (
@@ -164,12 +173,20 @@ const CardPreviewPage: NextPage<CardPreviewPageProps> = ({ card, owner }) => {
               )}
               <div className="absolute inset-x-0 bottom-0 flex justify-center">
                 <div className="inline-flex gap-4 rounded-t-xl bg-background/95 px-4 pt-2 pb-2 text-[11px] font-medium shadow-sm">
-                  <span className="border-b-2 border-primary pb-0.5 text-primary">
-                    Home
-                  </span>
-                  <span className="text-muted-foreground">Giới thiệu</span>
-                  <span className="text-muted-foreground">Video</span>
-                  <span className="text-muted-foreground">Shop</span>
+                  {sections.map((section) => (
+                    <button
+                      key={section.id}
+                      type="button"
+                      onClick={() => setActiveSection(section.id)}
+                      className={
+                        section.id === activeSection
+                          ? "border-b-2 border-primary pb-0.5 text-primary"
+                          : "text-muted-foreground hover:text-foreground"
+                      }
+                    >
+                      {section.label}
+                    </button>
+                  ))}
                 </div>
               </div>
             </div>
