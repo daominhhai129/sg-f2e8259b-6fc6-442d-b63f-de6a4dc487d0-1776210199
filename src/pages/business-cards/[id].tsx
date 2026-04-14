@@ -271,7 +271,7 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
               ) : (
                 <div className="grid gap-4 lg:grid-cols-5">
                   <div className="rounded-xl border bg-card p-4 shadow-sm lg:col-span-2">
-                    <div className="flex items-start justify-between gap-2 border-b pb-3">
+                    <div className="flex items-start justifyetween gap-2 border-b pb-3">
                       <div>
                         <h2 className="text-sm font-semibold md:text-base">
                           Card preview
@@ -353,8 +353,7 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
 
                           <div className="mt-3 text-center">
                             <div className="text-base font-semibold uppercase tracking-wide">
-                              {activeForm.name ||
-                                card.languages[selectedLanguage].name}
+                              {activeForm.name || card.languages[selectedLanguage].name}
                             </div>
                             <div className="mt-1 text-xs font-medium text-muted-foreground">
                               {activeForm.title || "Giám đốc"}
