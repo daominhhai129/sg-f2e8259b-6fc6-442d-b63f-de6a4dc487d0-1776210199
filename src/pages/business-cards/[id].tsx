@@ -324,17 +324,9 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
 
                     <div className="mt-3 flex justify-center">
                       <div className="w-full max-w-sm overflow-hidden rounded-2xl border bg-background shadow-md">
-                        <div className="relative">
-                          {activeForm.coverImageUrl ? (
-                            <div
-                              className="h-32 w-full bg-cover bg-center"
-                              style={{ backgroundImage: `url(${activeForm.coverImageUrl})` }}
-                            />
-                          ) : (
-                            <div className="h-32 w-full bg-muted" />
-                          )}
-                          <div className="absolute inset-x-0 bottom-0 flex justify-center">
-                            <div className="inline-flex gap-4 rounded-t-xl bg-background/95 px-4 pt-2 pb-2 text-[11px] font-medium shadow-sm">
+                        <div className="border-b bg-background/95 px-4 pt-3 pb-2">
+                          <div className="flex justify-center">
+                            <div className="inline-flex gap-4 rounded-full bg-muted px-4 py-1.5 text-[11px] font-medium shadow-sm">
                               {sections.map((section) => (
                                 <button
                                   key={section.id}
@@ -351,6 +343,17 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                               ))}
                             </div>
                           </div>
+                        </div>
+
+                        <div className="relative">
+                          {activeForm.coverImageUrl ? (
+                            <div
+                              className="h-32 w-full bg-cover bg-center"
+                              style={{ backgroundImage: `url(${activeForm.coverImageUrl})` }}
+                            />
+                          ) : (
+                            <div className="h-32 w-full bg-muted" />
+                          )}
                         </div>
 
                         <div className="px-4 pb-4 pt-10">
@@ -379,6 +382,53 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                               {activeForm.company ||
                                 card.languages[selectedLanguage].company}
                             </div>
+                          </div>
+
+                          <div className="mt-3 text-[11px] text-muted-foreground">
+                            {activeSection === "home" && (
+                              <p>
+                                This is the main contact view preview. Use the form on the
+                                right to adjust the fields for the selected language.
+                              </p>
+                            )}
+                            {activeSection === "about" && (
+                              <p>
+                                {activeForm.bio && activeForm.bio.trim() !== ""
+                                  ? activeForm.bio
+                                  : "A short introduction or bio for this profile in the selected language will appear here."}
+                              </p>
+                            )}
+                            {activeSection === "video" && (
+                              <div className="rounded-lg border bg-card px-3 py-2 text-center">
+                                {activeForm.youtubeUrl &&
+                                activeForm.youtubeUrl.trim() !== "" ? (
+                                  <p>
+                                    Video placeholder for{" "}
+                                    <span className="font-medium text-foreground">
+                                      {activeForm.youtubeUrl}
+                                    </span>
+                                    .
+                                  </p>
+                                ) : (
+                                  <p>
+                                    Add a YouTube link in the media section to preview how
+                                    a promo or intro video could be highlighted.
+                                  </p>
+                                )}
+                              </div>
+                            )}
+                            {activeSection === "shop" && (
+                              <div className="space-y-1">
+                                <p>
+                                  Use this section to conceptually link to shop pages or
+                                  featured offers related to this card.
+                                </p>
+                                <ul className="list-disc pl-4">
+                                  <li>Main shop or pricing page</li>
+                                  <li>Highlighted service or product</li>
+                                </ul>
+                              </div>
+                            )}
                           </div>
 
                           <div className="mt-3 flex justify-center gap-2">

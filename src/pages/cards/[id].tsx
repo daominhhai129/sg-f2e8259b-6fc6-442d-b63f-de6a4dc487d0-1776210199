@@ -162,17 +162,9 @@ const CardPreviewPage: NextPage<CardPreviewPageProps> = ({ card, owner }) => {
 
         <main className="flex justify-center px-4 pb-10 pt-2 md:px-6 lg:px-8">
           <div className="w-full max-w-md overflow-hidden rounded-2xl border bg-background shadow-lg">
-            <div className="relative">
-              {content.coverImageUrl ? (
-                <div
-                  className="h-32 w-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${content.coverImageUrl})` }}
-                />
-              ) : (
-                <div className="h-32 w-full bg-muted" />
-              )}
-              <div className="absolute inset-x-0 bottom-0 flex justify-center">
-                <div className="inline-flex gap-4 rounded-t-xl bg-background/95 px-4 pt-2 pb-2 text-[11px] font-medium shadow-sm">
+            <div className="border-b bg-background/95 px-4 pt-3 pb-2">
+              <div className="flex justify-center">
+                <div className="inline-flex gap-4 rounded-full bg-muted px-4 py-1.5 text-[11px] font-medium shadow-sm">
                   {sections.map((section) => (
                     <button
                       key={section.id}
@@ -189,6 +181,17 @@ const CardPreviewPage: NextPage<CardPreviewPageProps> = ({ card, owner }) => {
                   ))}
                 </div>
               </div>
+            </div>
+
+            <div className="relative">
+              {content.coverImageUrl ? (
+                <div
+                  className="h-32 w-full bg-cover bg-center"
+                  style={{ backgroundImage: `url(${content.coverImageUrl})` }}
+                />
+              ) : (
+                <div className="h-32 w-full bg-muted" />
+              )}
             </div>
 
             <div className="px-4 pb-5 pt-10">
@@ -216,6 +219,49 @@ const CardPreviewPage: NextPage<CardPreviewPageProps> = ({ card, owner }) => {
                 <div className="mt-0.5 text-[11px] text-muted-foreground">
                   {content.company}
                 </div>
+              </div>
+
+              <div className="mt-3 text-[11px] text-muted-foreground">
+                {activeSection === "home" && (
+                  <p>
+                    This is the main contact view for {content.name}. Use the buttons
+                    below to save the contact or scan the QR code.
+                  </p>
+                )}
+                {activeSection === "about" && (
+                  <p>
+                    {content.bio && content.bio.trim() !== ""
+                      ? content.bio
+                      : "A short introduction about this person or business in the selected language will appear here."}
+                  </p>
+                )}
+                {activeSection === "video" && (
+                  <div className="rounded-lg border bg-card px-3 py-2 text-center">
+                    {content.youtubeUrl && content.youtubeUrl.trim() !== "" ? (
+                      <p>
+                        Video placeholder for{" "}
+                        <span className="font-medium text-foreground">
+                          {content.youtubeUrl}
+                        </span>
+                        .
+                      </p>
+                    ) : (
+                      <p>
+                        Add a YouTube link in the admin to highlight a promo or intro
+                        video on this card.
+                      </p>
+                    )}
+                  </div>
+                )}
+                {activeSection === "shop" && (
+                  <div className="space-y-1">
+                    <p>Highlight key links to your shop or featured services.</p>
+                    <ul className="list-disc pl-4">
+                      <li>Main online shop page</li>
+                      <li>Featured product or service for this profile</li>
+                    </ul>
+                  </div>
+                )}
               </div>
 
               <div className="mt-3 flex justify-center gap-2">
