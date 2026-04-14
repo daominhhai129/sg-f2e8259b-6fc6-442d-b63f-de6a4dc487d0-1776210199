@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 
 type UserStatus = "active" | "invited" | "suspended";
 type UserRole = "admin" | "user";
@@ -226,30 +227,30 @@ export function AdminDashboard(): JSX.Element {
             <div className="mb-2 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
               Overview
             </div>
-            <button
-              type="button"
+            <Link
+              href="/"
               className="flex w-full items-center justify-between rounded-lg bg-primary/10 px-3 py-2 text-left text-sm font-medium text-primary"
             >
               <span>Dashboard</span>
               <span className="rounded-full bg-primary px-2 py-0.5 text-[10px] font-semibold text-primary-foreground">
                 Now
               </span>
-            </button>
+            </Link>
             <div className="mb-2 mt-4 text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
               Management
             </div>
-            <button
-              type="button"
+            <Link
+              href="/users"
               className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <span>Users</span>
-            </button>
-            <button
-              type="button"
+            </Link>
+            <Link
+              href="/business-cards"
               className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
             >
               <span>Business cards</span>
-            </button>
+            </Link>
             <button
               type="button"
               className="flex w-full items-center justify-between rounded-lg px-3 py-2 text-left text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
