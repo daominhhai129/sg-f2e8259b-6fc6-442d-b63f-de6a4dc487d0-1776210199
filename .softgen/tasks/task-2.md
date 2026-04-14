@@ -1,6 +1,6 @@
 ---
 title: "Implement users and business cards management UI"
-status: "todo"
+status: "done"
 priority: "high"
 type: "feature"
 tags: ["users", "business-cards"]
@@ -15,7 +15,7 @@ Extend the dashboard with a focused management UI for individual users and their
 
 ## Checklist
 
-- [ ] Create a detail panel for the selected user showing a digital business card preview
-- [ ] Add editable fields for card content (name, title, company, bio, links)
-- [ ] Wire row selection in the users table to update the detail panel
-- [ ] Add basic search and/or filter for users by name, email, or status
+- [x] Create a detail panel for the selected user showing a digital business card preview
+- [x] Add editable fields for card content (name, title, company, bio, links)
+- [x] Wire row selection in the users table to update the detail panel
+- [x] Add basic search and/or filter for users by name, email, or status
