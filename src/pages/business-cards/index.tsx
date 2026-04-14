@@ -214,9 +214,6 @@ const BusinessCardsPage: NextPage = () => {
                               Preview card
                             </Link>
                           </div>
-                          <span className="text-[10px] text-muted-foreground">
-                            Mock only, no real edits
-                          </span>
                         </div>
                       </article>
                     );
