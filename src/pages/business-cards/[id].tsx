@@ -1,6 +1,7 @@
 import { useState } from "react";
 import type { GetServerSideProps, NextPage } from "next";
 import Link from "next/link";
+import { Phone, Mail, Globe, Linkedin, Twitter, Youtube } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import {
   businessCardsMock,
@@ -30,6 +31,14 @@ interface BusinessCardForm {
   profileImageUrl: string;
   coverImageUrl: string;
   youtubeUrl: string;
+}
+
+interface ContactItem {
+  key: string;
+  show: boolean;
+  value: string;
+  iconBg: string;
+  icon: JSX.Element;
 }
 
 const languages: SupportedLanguage[] = ["vi", "en", "zh"];
@@ -115,6 +124,51 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
   if (activeForm.youtubeUrl) {
     linksLabelParts.push("YouTube");
   }
+
+  const contactItems: ContactItem[] = [
+    {
+      key: "phone",
+      show: activeForm.phone.trim() !== "",
+      value: activeForm.phone,
+      iconBg: "bg-emerald-500",
+      icon: <Phone className="h-3.5 w-3.5" />,
+    },
+    {
+      key: "email",
+      show: activeForm.email.trim() !== "",
+      value: activeForm.email,
+      iconBg: "bg-sky-500",
+      icon: <Mail className="h-3.5 w-3.5" />,
+    },
+    {
+      key: "website",
+      show: activeForm.website.trim() !== "",
+      value: activeForm.website,
+      iconBg: "bg-indigo-500",
+      icon: <Globe className="h-3.5 w-3.5" />,
+    },
+    {
+      key: "linkedin",
+      show: activeForm.linkedin.trim() !== "",
+      value: activeForm.linkedin,
+      iconBg: "bg-blue-700",
+      icon: <Linkedin className="h-3.5 w-3.5" />,
+    },
+    {
+      key: "twitter",
+      show: activeForm.twitter.trim() !== "",
+      value: activeForm.twitter,
+      iconBg: "bg-slate-800",
+      icon: <Twitter className="h-3.5 w-3.5" />,
+    },
+    {
+      key: "youtube",
+      show: activeForm.youtubeUrl.trim() !== "",
+      value: activeForm.youtubeUrl,
+      iconBg: "bg-red-600",
+      icon: <Youtube className="h-3.5 w-3.5" />,
+    },
+  ];
 
   const handleFieldChange = (field: keyof BusinessCardForm, value: string): void => {
     setForms((current) => ({
@@ -259,57 +313,103 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                       </div>
                     </div>
 
-                    <div className="mt-3 overflow-hidden rounded-lg border bg-background">
-                      {activeForm.coverImageUrl ? (
-                        <div
-                          className="h-20 w-full bg-cover bg-center"
-                          style={{ backgroundImage: `url(${activeForm.coverImageUrl})` }}
-                        />
-                      ) : (
-                        <div className="h-20 w-full bg-muted" />
-                      )}
-                      <div className="flex items-center gap-3 px-3 py-2 text-xs">
-                        {activeForm.profileImageUrl ? (
-                          <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full border bg-muted">
-                            <img
-                              src={activeForm.profileImageUrl}
-                              alt={activeForm.name || "Profile"}
-                              className="h-full w-full object-cover"
+                    <div className="mt-3 flex justify-center">
+                      <div className="w-full max-w-sm overflow-hidden rounded-2xl border bg-background shadow-md">
+                        <div className="relative">
+                          {activeForm.coverImageUrl ? (
+                            <div
+                              className="h-32 w-full bg-cover bg-center"
+                              style={{ backgroundImage: `url(${activeForm.coverImageUrl})` }}
                             />
-                          </div>
-                        ) : (
-                          <div className="h-10 w-10 flex-shrink-0 rounded-full border bg-muted" />
-                        )}
-                        <div className="flex-1">
-                          <div className="text-sm font-semibold">
-                            {activeForm.name ||
-                              card.languages[selectedLanguage].name}
-                          </div>
-                          <div className="text-[11px] text-muted-foreground">
-                            {activeForm.title || "Title"}
-                          </div>
-                          <div className="text-[11px] text-muted-foreground">
-                            {activeForm.company || "Company"}
+                          ) : (
+                            <div className="h-32 w-full bg-muted" />
+                          )}
+                          <div className="absolute inset-x-0 bottom-0 flex justify-center">
+                            <div className="inline-flex gap-4 rounded-t-xl bg-background/95 px-4 pt-2 pb-2 text-[11px] font-medium shadow-sm">
+                              <span className="border-b-2 border-primary pb-0.5 text-primary">
+                                Home
+                              </span>
+                              <span className="text-muted-foreground">Giới thiệu</span>
+                              <span className="text-muted-foreground">Video</span>
+                              <span className="text-muted-foreground">Shop</span>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      {activeForm.bio && (
-                        <p className="px-3 pb-2 text-[11px] text-muted-foreground">
-                          {activeForm.bio}
-                        </p>
-                      )}
-                      <div className="flex flex-wrap items-center justify-between gap-2 border-t px-3 py-2 text-[10px] text-muted-foreground">
-                        <div className="flex flex-wrap gap-1 text-primary">
-                          {activeForm.website && <span>Website</span>}
-                          {activeForm.linkedin && <span>LinkedIn</span>}
-                          {activeForm.twitter && <span>X / Twitter</span>}
-                          {activeForm.youtubeUrl && <span>YouTube</span>}
-                        </div>
-                        <div>
-                          {linksCount} link{linksCount === 1 ? "" : "s"}
-                          {linksLabelParts.length > 0
-                            ? ` · ${linksLabelParts.join(" · ")}`
-                            : ""}
+
+                        <div className="px-4 pb-4 pt-10">
+                          <div className="flex justify-center">
+                            {activeForm.profileImageUrl ? (
+                              <div className="relative -mt-14 h-24 w-24 overflow-hidden rounded-full border-4 border-background bg-muted shadow-md">
+                                <img
+                                  src={activeForm.profileImageUrl}
+                                  alt={activeForm.name || "Profile"}
+                                  className="h-full w-full object-cover"
+                                />
+                              </div>
+                            ) : (
+                              <div className="relative -mt-14 h-24 w-24 rounded-full border-4 border-background bg-muted shadow-md" />
+                            )}
+                          </div>
+
+                          <div className="mt-3 text-center">
+                            <div className="text-base font-semibold uppercase tracking-wide">
+                              {activeForm.name ||
+                                card.languages[selectedLanguage].name}
+                            </div>
+                            <div className="mt-1 text-xs font-medium text-muted-foreground">
+                              {activeForm.title || "Giám đốc"}
+                            </div>
+                            <div className="mt-0.5 text-[11px] text-muted-foreground">
+                              {activeForm.company ||
+                                card.languages[selectedLanguage].company}
+                            </div>
+                          </div>
+
+                          <div className="mt-3 flex justify-center gap-2">
+                            <button
+                              type="button"
+                              className="inline-flex items-center justify-center rounded-full bg-amber-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow hover:bg-amber-700"
+                            >
+                              Lưu danh bạ
+                            </button>
+                            <button
+                              type="button"
+                              className="inline-flex items-center justify-center rounded-full border border-amber-600 bg-background px-3 py-1.5 text-[11px] font-semibold text-amber-700 shadow-sm hover:bg-amber-50"
+                            >
+                              Quét mã QR
+                            </button>
+                          </div>
+
+                          <div className="mt-4 space-y-2 text-[11px]">
+                            {contactItems
+                              .filter((item) => item.show)
+                              .map((item) => (
+                                <div
+                                  key={item.key}
+                                  className="flex items-center gap-3 rounded-lg border bg-card px-3 py-2 shadow-sm"
+                                >
+                                  <div
+                                    className={`flex h-7 w-7 items-center justify-center rounded-full text-white ${item.iconBg}`}
+                                  >
+                                    {item.icon}
+                                  </div>
+                                  <div className="flex-1 truncate text-xs text-foreground">
+                                    {item.value}
+                                  </div>
+                                </div>
+                              ))}
+                          </div>
+
+                          {linksLabelParts.length > 0 && (
+                            <div className="mt-4 text-center text-[10px] text-muted-foreground">
+                              {linksCount} link{linksCount === 1 ? "" : "s"} ·{" "}
+                              {linksLabelParts.join(" · ")}
+                            </div>
+                          )}
+
+                          <div className="mt-4 text-center text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                            Pro ID • Preview
+                          </div>
                         </div>
                       </div>
                     </div>
