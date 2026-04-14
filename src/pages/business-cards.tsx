@@ -91,135 +91,120 @@ const BusinessCardsPage: NextPage = () => {
               <div className="rounded-xl border bg-card p-4 shadow-sm">
                 <div className="mb-3 flex flex-col gap-2 border-b pb-3 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <h2 className="text-sm font-semibold md:text-base">
-                      Business cards table
-                    </h2>
+                    <h2 className="text-sm font-semibold md:text-base">Business cards</h2>
                     <p className="mt-1 text-xs text-muted-foreground">
                       Static mock data showing how card records connect to user accounts.
                     </p>
                   </div>
+                  <div className="flex items-center gap-2 text-[11px] text-muted-foreground md:text-xs">
+                    <span className="rounded-full bg-muted px-2 py-0.5 font-medium text-foreground">
+                      Grid view
+                    </span>
+                    <span>{totalCards} cards</span>
+                  </div>
                 </div>
 
-                <div className="overflow-x-auto">
-                  <table className="min-w-[720px] w-full border-separate border-spacing-0 text-left text-xs md:text-sm">
-                    <thead className="bg-muted/60">
-                      <tr>
-                        <th className="border-b px-3 py-2 text-[11px] font-semibold text-muted-foreground md:text-xs">
-                          Card
-                        </th>
-                        <th className="border-b px-3 py-2 text-[11px] font-semibold text-muted-foreground md:text-xs">
-                          Title / company
-                        </th>
-                        <th className="border-b px-3 py-2 text-[11px] font-semibold text-muted-foreground md:text-xs">
-                          Owner
-                        </th>
-                        <th className="border-b px-3 py-2 text-[11px] font-semibold text-muted-foreground md:text-xs">
-                          Plan
-                        </th>
-                        <th className="border-b px-3 py-2 text-[11px] font-semibold text-muted-foreground md:text-xs">
-                          Status
-                        </th>
-                        <th className="border-b px-3 py-2 text-[11px] font-semibold text-muted-foreground md:text-xs">
-                          Links
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {businessCardsMock.map((card: BusinessCard) => {
-                        const owner: AdminUser | undefined = usersMock.find(
-                          (user) => user.id === card.userId
-                        );
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {businessCardsMock.map((card: BusinessCard) => {
+                    const owner: AdminUser | undefined = usersMock.find(
+                      (user) => user.id === card.userId
+                    );
 
-                        const linksCount: number = [
-                          card.website,
-                          card.linkedin,
-                          card.twitter,
-                        ].filter((value) => !!value && value.trim() !== "").length;
+                    const linksCount: number = [
+                      card.website,
+                      card.linkedin,
+                      card.twitter,
+                    ].filter((value) => !!value && value.trim() !== "").length;
 
-                        return (
-                          <tr
-                            key={card.id}
-                            className="align-middle hover:bg-muted/40"
-                          >
-                            <td className="border-b px-3 py-2">
-                              <div className="flex flex-col">
-                                <span className="text-xs font-medium md:text-sm">
-                                  {card.name}
-                                </span>
-                                <span className="text-[11px] text-muted-foreground md:text-xs">
-                                  Primary digital business card
-                                </span>
+                    return (
+                      <article
+                        key={card.id}
+                        className="flex flex-col justify-between rounded-lg border bg-background p-3 text-xs shadow-sm"
+                      >
+                        <div className="space-y-2">
+                          <div className="flex items-start justify-between gap-2">
+                            <div>
+                              <div className="text-sm font-semibold">{card.name}</div>
+                              <div className="text-[11px] text-muted-foreground">
+                                Primary digital business card
                               </div>
-                            </td>
-                            <td className="border-b px-3 py-2">
-                              <div className="flex flex-col">
-                                <span className="text-xs md:text-sm">
-                                  {card.title || "—"}
-                                </span>
-                                <span className="text-[11px] text-muted-foreground md:text-xs">
-                                  {card.company || "—"}
-                                </span>
+                            </div>
+                            {owner ? (
+                              <span
+                                className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium md:text-xs ${getStatusClasses(
+                                  owner.status
+                                )}`}
+                              >
+                                {owner.status === "active"
+                                  ? "Active"
+                                  : owner.status === "invited"
+                                  ? "Invited"
+                                  : "Suspended"}
+                              </span>
+                            ) : null}
+                          </div>
+
+                          <div>
+                            <div className="text-xs md:text-sm">
+                              {card.title || "—"}
+                            </div>
+                            <div className="text-[11px] text-muted-foreground">
+                              {card.company || "—"}
+                            </div>
+                          </div>
+
+                          {owner ? (
+                            <div>
+                              <div className="text-[11px] font-medium">{owner.name}</div>
+                              <div className="text-[11px] text-muted-foreground">
+                                {owner.email}
                               </div>
-                            </td>
-                            <td className="border-b px-3 py-2">
-                              {owner ? (
-                                <div className="flex flex-col">
-                                  <span className="text-xs font-medium md:text-sm">
-                                    {owner.name}
-                                  </span>
-                                  <span className="text-[11px] text-muted-foreground md:text-xs">
-                                    {owner.email}
-                                  </span>
-                                </div>
-                              ) : (
-                                <span className="text-[11px] text-muted-foreground md:text-xs">
-                                  Unknown user
-                                </span>
-                              )}
-                            </td>
-                            <td className="border-b px-3 py-2">
-                              {owner ? (
-                                <span className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-[11px] font-medium text-blue-700 md:text-xs">
+                              <div className="mt-1">
+                                <span className="inline-flex items-center rounded-full border border-blue-200 bg-blue-50 px-2 py-0.5 text-[10px] font-medium text-blue-700 md:text-xs">
                                   {getPlanLabel(owner.plan)}
                                 </span>
-                              ) : (
-                                <span className="text-[11px] text-muted-foreground md:text-xs">
-                                  —
-                                </span>
-                              )}
-                            </td>
-                            <td className="border-b px-3 py-2">
-                              {owner ? (
-                                <span
-                                  className={`inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-medium md:text-xs ${getStatusClasses(
-                                    owner.status
-                                  )}`}
-                                >
-                                  {owner.status === "active"
-                                    ? "Active"
-                                    : owner.status === "invited"
-                                    ? "Invited"
-                                    : "Suspended"}
-                                </span>
-                              ) : (
-                                <span className="text-[11px] text-muted-foreground md:text-xs">
-                                  —
-                                </span>
-                              )}
-                            </td>
-                            <td className="border-b px-3 py-2">
-                              <span className="text-xs font-medium md:text-sm">
-                                {linksCount}
-                              </span>
-                              <span className="ml-1 text-[11px] text-muted-foreground md:text-xs">
-                                link{linksCount === 1 ? "" : "s"}
-                              </span>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="text-[11px] text-muted-foreground">
+                              Unknown owner
+                            </div>
+                          )}
+
+                          <div className="mt-1 flex items-center justify-between text-[11px] text-muted-foreground">
+                            <span>
+                              {linksCount} link{linksCount === 1 ? "" : "s"}
+                            </span>
+                            <span>
+                              {card.website ? "Website" : ""}
+                              {card.linkedin
+                                ? card.website
+                                  ? " · LinkedIn"
+                                  : "LinkedIn"
+                                : ""}
+                              {card.twitter
+                                ? card.website || card.linkedin
+                                  ? " · X / Twitter"
+                                  : "X / Twitter"
+                                : ""}
+                            </span>
+                          </div>
+                        </div>
+
+                        <div className="mt-3 flex items-center justify-between">
+                          <button
+                            type="button"
+                            className="inline-flex items-center justify-center rounded-full bg-primary px-3 py-1 text-[11px] font-medium text-primary-foreground shadow-sm hover:bg-primary/90"
+                          >
+                            Edit card
+                          </button>
+                          <span className="text-[10px] text-muted-foreground">
+                            Mock only, no real edits
+                          </span>
+                        </div>
+                      </article>
+                    );
+                  })}
                 </div>
 
                 <div className="mt-3 text-[11px] text-muted-foreground md:text-xs">
