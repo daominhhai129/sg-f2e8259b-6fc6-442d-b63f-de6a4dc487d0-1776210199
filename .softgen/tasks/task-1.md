@@ -1,6 +1,6 @@
 ---
 title: "Create admin dashboard shell"
-status: "in_progress"
+status: "done"
 priority: "urgent"
 type: "feature"
 tags: ["dashboard", "layout"]
@@ -15,7 +15,7 @@ Set up the main admin dashboard layout on the home page so we have a clear struc
 
 ## Checklist
 
-- [ ] Create main admin dashboard layout in src/pages/index.tsx with sidebar, header, and content area
-- [ ] Add summary metric cards for total users, total cards, and active users using mock data
-- [ ] Add a users table with mock data showing role, plan, status, and last active
-- [ ] Ensure the layout is responsive for mobile, tablet, and desktop
+- [x] Create main admin dashboard layout in src/pages/index.tsx with sidebar, header, and content area
+- [x] Add summary metric cards for total users, total cards, and active users using mock data
+- [x] Add a users table with mock data showing role, plan, status, and last active
+- [x] Ensure the layout is responsive for mobile, tablet, and desktop
