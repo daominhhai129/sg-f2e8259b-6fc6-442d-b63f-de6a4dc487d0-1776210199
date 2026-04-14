@@ -264,7 +264,7 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
               <div className="flex items-center gap-2">
                 <Link
                   href="/business-cards"
-                  className="inline-flex items-center rounded-full border bg-card px-4 py-1.5 text-[11px] text-muted-foreground hover:bg-muted md:text-xs"
+                  className="inline-flex items-center rounded-full border bg-card px-4 py-1.5 text-[11px] text-muted-foreground hover:bg-muted hover:text-foreground md:text-xs"
                 >
                   Back to cards
                 </Link>
@@ -387,90 +387,175 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                           <div className="mt-3 text-[11px] text-muted-foreground">
                             {activeSection === "home" && (
                               <p>
-                                This is the main contact view preview. Use the form on the
-                                right to adjust the fields for the selected language.
+                                Đây là bản xem trước màn hình liên hệ chính. Sử dụng form
+                                bên phải để điều chỉnh thông tin cho ngôn ngữ{" "}
+                                <span className="font-medium text-foreground">
+                                  {selectedLanguage.toUpperCase()}
+                                </span>
+                                .
                               </p>
                             )}
                             {activeSection === "about" && (
-                              <p>
-                                {activeForm.bio && activeForm.bio.trim() !== ""
-                                  ? activeForm.bio
-                                  : "A short introduction or bio for this profile in the selected language will appear here."}
-                              </p>
+                              <>
+                                <p>
+                                  {activeForm.bio && activeForm.bio.trim() !== ""
+                                    ? activeForm.bio
+                                    : "Một đoạn giới thiệu ngắn cho hồ sơ này sẽ được hiển thị tại đây khi bạn nhập nội dung ở phần Short bio."}
+                                </p>
+                                <div className="mt-3 grid grid-cols-3 gap-2">
+                                  <div
+                                    className="h-16 rounded-md bg-cover bg-center"
+                                    style={{
+                                      backgroundImage:
+                                        "url(https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=300&q=80)",
+                                    }}
+                                  />
+                                  <div
+                                    className="h-16 rounded-md bg-cover bg-center"
+                                    style={{
+                                      backgroundImage:
+                                        "url(https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=300&q=80)",
+                                    }}
+                                  />
+                                  <div
+                                    className="h-16 rounded-md bg-cover bg-center"
+                                    style={{
+                                      backgroundImage:
+                                        "url(https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?auto=format&fit=crop&w=300&q=80)",
+                                    }}
+                                  />
+                                </div>
+                              </>
                             )}
                             {activeSection === "video" && (
-                              <div className="rounded-lg border bg-card px-3 py-2 text-center">
-                                {activeForm.youtubeUrl &&
-                                activeForm.youtubeUrl.trim() !== "" ? (
-                                  <p>
-                                    Video placeholder for{" "}
-                                    <span className="font-medium text-foreground">
-                                      {activeForm.youtubeUrl}
-                                    </span>
-                                    .
-                                  </p>
-                                ) : (
-                                  <p>
-                                    Add a YouTube link in the media section to preview how
-                                    a promo or intro video could be highlighted.
-                                  </p>
-                                )}
+                              <div className="space-y-3">
+                                <p>
+                                  Xem trước khu vực video cho card này. Nhập đường dẫn
+                                  YouTube ở phần &quot;YouTube video URL&quot; để dùng cho
+                                  chiến dịch thực tế.
+                                </p>
+                                <div className="space-y-3">
+                                  {[
+                                    "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                                    "https://www.youtube.com/embed/oHg5SJYRHA0",
+                                    "https://www.youtube.com/embed/3GwjfUFyY6M",
+                                  ].map((src) => (
+                                    <div
+                                      key={src}
+                                      className="overflow-hidden rounded-lg border bg-black/90"
+                                    >
+                                      <iframe
+                                        src={src}
+                                        title="Promo video"
+                                        className="h-36 w-full"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowFullScreen
+                                      />
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
                             )}
                             {activeSection === "shop" && (
-                              <div className="space-y-1">
+                              <div className="space-y-3">
                                 <p>
-                                  Use this section to conceptually link to shop pages or
-                                  featured offers related to this card.
+                                  Mô phỏng khu vực giới thiệu gói dịch vụ hoặc sản phẩm để
+                                  gắn với card này.
                                 </p>
-                                <ul className="list-disc pl-4">
-                                  <li>Main shop or pricing page</li>
-                                  <li>Highlighted service or product</li>
-                                </ul>
+                                <div className="grid gap-2">
+                                  {[
+                                    {
+                                      name: "Gói tư vấn tiêu chuẩn",
+                                      price: "1.500.000đ",
+                                      description: "Buổi tư vấn 1:1 trong 60 phút.",
+                                    },
+                                    {
+                                      name: "Gói dịch vụ premium",
+                                      price: "4.900.000đ",
+                                      description:
+                                        "Giải pháp trọn gói cho doanh nghiệp nhỏ.",
+                                    },
+                                    {
+                                      name: "Sản phẩm nổi bật",
+                                      price: "Liên hệ",
+                                      description:
+                                        "Tuỳ chỉnh theo nhu cầu từng khách hàng.",
+                                    },
+                                  ].map((product) => (
+                                    <div
+                                      key={product.name}
+                                      className="flex items-center justify-between rounded-lg border bg-card px-3 py-2 text-[11px] shadow-sm"
+                                    >
+                                      <div>
+                                        <div className="font-semibold text-foreground">
+                                          {product.name}
+                                        </div>
+                                        <div className="text-[10px] text-muted-foreground">
+                                          {product.description}
+                                        </div>
+                                      </div>
+                                      <div className="text-right">
+                                        <div className="text-xs font-semibold text-amber-700">
+                                          {product.price}
+                                        </div>
+                                        <button
+                                          type="button"
+                                          className="mt-1 inline-flex items-center rounded-full bg-primary px-2 py-0.5 text-[10px] font-medium text-primary-foreground"
+                                        >
+                                          Xem thêm
+                                        </button>
+                                      </div>
+                                    </div>
+                                  ))}
+                                </div>
                               </div>
                             )}
                           </div>
 
-                          <div className="mt-3 flex justify-center gap-2">
-                            <button
-                              type="button"
-                              className="inline-flex items-center justify-center rounded-full bg-amber-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow hover:bg-amber-700"
-                            >
-                              Lưu danh bạ
-                            </button>
-                            <button
-                              type="button"
-                              className="inline-flex items-center justify-center rounded-full border border-amber-600 bg-background px-3 py-1.5 text-[11px] font-semibold text-amber-700 shadow-sm hover:bg-amber-50"
-                            >
-                              Quét mã QR
-                            </button>
-                          </div>
-
-                          <div className="mt-4 space-y-2 text-[11px]">
-                            {contactItems
-                              .filter((item) => item.show)
-                              .map((item) => (
-                                <div
-                                  key={item.key}
-                                  className="flex items-center gap-3 rounded-lg border bg-card px-3 py-2 shadow-sm"
+                          {activeSection === "home" && (
+                            <>
+                              <div className="mt-3 flex justify-center gap-2">
+                                <button
+                                  type="button"
+                                  className="inline-flex items-center justify-center rounded-full bg-amber-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow hover:bg-amber-700"
                                 >
-                                  <div
-                                    className={`flex h-7 w-7 items-center justify-center rounded-full text-white ${item.iconBg}`}
-                                  >
-                                    {item.icon}
-                                  </div>
-                                  <div className="flex-1 truncate text-xs text-foreground">
-                                    {item.value}
-                                  </div>
-                                </div>
-                              ))}
-                          </div>
+                                  Lưu danh bạ
+                                </button>
+                                <button
+                                  type="button"
+                                  className="inline-flex items-center justify-center rounded-full border border-amber-600 bg-background px-3 py-1.5 text-[11px] font-semibold text-amber-700 shadow-sm hover:bg-amber-50"
+                                >
+                                  Quét mã QR
+                                </button>
+                              </div>
 
-                          {linksLabelParts.length > 0 && (
-                            <div className="mt-4 text-center text-[10px] text-muted-foreground">
-                              {linksCount} link{linksCount === 1 ? "" : "s"} ·{" "}
-                              {linksLabelParts.join(" · ")}
-                            </div>
+                              <div className="mt-4 space-y-2 text-[11px]">
+                                {contactItems
+                                  .filter((item) => item.show)
+                                  .map((item) => (
+                                    <div
+                                      key={item.key}
+                                      className="flex items-center gap-3 rounded-lg border bg-card px-3 py-2 shadow-sm"
+                                    >
+                                      <div
+                                        className={`flex h-7 w-7 items-center justify-center rounded-full text-white ${item.iconBg}`}
+                                      >
+                                        {item.icon}
+                                      </div>
+                                      <div className="flex-1 truncate text-xs text-foreground">
+                                        {item.value}
+                                      </div>
+                                    </div>
+                                  ))}
+                              </div>
+
+                              {linksLabelParts.length > 0 && (
+                                <div className="mt-4 text-center text-[10px] text-muted-foreground">
+                                  {linksCount} link{linksCount === 1 ? "" : "s"} ·{" "}
+                                  {linksLabelParts.join(" · ")}
+                                </div>
+                              )}
+                            </>
                           )}
 
                           <div className="mt-4 text-center text-[10px] uppercase tracking-[0.2em] text-muted-foreground">

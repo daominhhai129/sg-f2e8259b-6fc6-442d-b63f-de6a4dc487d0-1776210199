@@ -279,31 +279,160 @@ const CardPreviewPage: NextPage<CardPreviewPageProps> = ({ card, owner }) => {
                 </button>
               </div>
 
-              <div className="mt-4 space-y-2 text-[11px]">
-                {contactItems
-                  .filter((item) => item.show)
-                  .map((item) => (
-                    <div
-                      key={item.key}
-                      className="flex items-center gap-3 rounded-lg border bg-card px-3 py-2 shadow-sm"
-                    >
+              <div className="mt-4 text-[11px] text-muted-foreground">
+                {activeSection === "home" && (
+                  <p>
+                    Đây là màn hình liên hệ chính cho{" "}
+                    <span className="font-medium text-foreground">{content.name}</span>.
+                    Cuộn xuống để xem số điện thoại, email và các liên kết quan trọng.
+                  </p>
+                )}
+
+                {activeSection === "about" && (
+                  <>
+                    <p>
+                      {content.bio && content.bio.trim() !== ""
+                        ? content.bio
+                        : "Một đoạn giới thiệu ngắn về cá nhân hoặc doanh nghiệp này sẽ hiển thị tại đây. Bạn có thể dùng phần này để kể câu chuyện thương hiệu và điểm khác biệt chính."}
+                    </p>
+                    <div className="mt-3 grid grid-cols-3 gap-2">
                       <div
-                        className={`flex h-7 w-7 items-center justify-center rounded-full text-white ${item.iconBg}`}
-                      >
-                        {item.icon}
-                      </div>
-                      <div className="flex-1 truncate text-xs text-foreground">
-                        {item.value}
-                      </div>
+                        className="h-16 rounded-md bg-cover bg-center"
+                        style={{
+                          backgroundImage:
+                            "url(https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=300&q=80)",
+                        }}
+                      />
+                      <div
+                        className="h-16 rounded-md bg-cover bg-center"
+                        style={{
+                          backgroundImage:
+                            "url(https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=300&q=80)",
+                        }}
+                      />
+                      <div
+                        className="h-16 rounded-md bg-cover bg-center"
+                        style={{
+                          backgroundImage:
+                            "url(https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?auto=format&fit=crop&w=300&q=80)",
+                        }}
+                      />
                     </div>
-                  ))}
+                  </>
+                )}
+
+                {activeSection === "video" && (
+                  <div className="space-y-3">
+                    <p>
+                      Bộ sưu tập video giới thiệu, case study hoặc testimonial cho{" "}
+                      <span className="font-medium text-foreground">{content.name}</span>.
+                    </p>
+                    <div className="space-y-3">
+                      {[
+                        "https://www.youtube.com/embed/dQw4w9WgXcQ",
+                        "https://www.youtube.com/embed/oHg5SJYRHA0",
+                        "https://www.youtube.com/embed/3GwjfUFyY6M",
+                      ].map((src) => (
+                        <div
+                          key={src}
+                          className="overflow-hidden rounded-lg border bg-black/90"
+                        >
+                          <iframe
+                            src={src}
+                            title="Promo video"
+                            className="h-40 w-full"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {activeSection === "shop" && (
+                  <div className="space-y-3">
+                    <p>
+                      Một vài gói dịch vụ hoặc sản phẩm tiêu biểu mà khách hàng có thể
+                      quan tâm.
+                    </p>
+                    <div className="grid gap-2">
+                      {[
+                        {
+                          name: "Gói tư vấn tiêu chuẩn",
+                          price: "1.500.000đ",
+                          description: "Buổi tư vấn 1:1 trong 60 phút.",
+                        },
+                        {
+                          name: "Gói dịch vụ premium",
+                          price: "4.900.000đ",
+                          description: "Giải pháp trọn gói cho doanh nghiệp nhỏ.",
+                        },
+                        {
+                          name: "Sản phẩm nổi bật",
+                          price: "Liên hệ",
+                          description: "Giải pháp tùy chỉnh theo nhu cầu.",
+                        },
+                      ].map((product) => (
+                        <div
+                          key={product.name}
+                          className="flex items-center justify-between rounded-lg border bg-card px-3 py-2 text-[11px] shadow-sm"
+                        >
+                          <div>
+                            <div className="font-semibold text-foreground">
+                              {product.name}
+                            </div>
+                            <div className="text-[10px] text-muted-foreground">
+                              {product.description}
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-xs font-semibold text-amber-700">
+                              {product.price}
+                            </div>
+                            <button
+                              type="button"
+                              className="mt-1 inline-flex items-center rounded-full bg-primary px-2 py-0.5 text-[10px] font-medium text-primary-foreground"
+                            >
+                              Xem thêm
+                            </button>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
               </div>
 
-              {linksLabelParts.length > 0 && (
-                <div className="mt-4 text-center text-[10px] text-muted-foreground">
-                  {linksCount} link{linksCount === 1 ? "" : "s"} ·{" "}
-                  {linksLabelParts.join(" · ")}
-                </div>
+              {activeSection === "home" && (
+                <>
+                  <div className="mt-4 space-y-2 text-[11px]">
+                    {contactItems
+                      .filter((item) => item.show)
+                      .map((item) => (
+                        <div
+                          key={item.key}
+                          className="flex items-center gap-3 rounded-lg border bg-card px-3 py-2 shadow-sm"
+                        >
+                          <div
+                            className={`flex h-7 w-7 items-center justify-center rounded-full text-white ${item.iconBg}`}
+                          >
+                            {item.icon}
+                          </div>
+                          <div className="flex-1 truncate text-xs text-foreground">
+                            {item.value}
+                          </div>
+                        </div>
+                      ))}
+                  </div>
+
+                  {linksLabelParts.length > 0 && (
+                    <div className="mt-4 text-center text-[10px] text-muted-foreground">
+                      {linksCount} link{linksCount === 1 ? "" : "s"} ·{" "}
+                      {linksLabelParts.join(" · ")}
+                    </div>
+                  )}
+                </>
               )}
 
               <div className="mt-4 text-center text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
