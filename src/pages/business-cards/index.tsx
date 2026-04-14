@@ -200,12 +200,20 @@ const BusinessCardsPage: NextPage = () => {
                         </div>
 
                         <div className="mt-3 flex items-center justify-between">
-                          <Link
-                            href={`/business-cards/${card.id}`}
-                            className="inline-flex items-center justify-center rounded-full bg-primary px-3 py-1 text-[11px] font-medium text-primary-foreground shadow-sm hover:bg-primary/90"
-                          >
-                            Edit card
-                          </Link>
+                          <div className="flex items-center gap-2">
+                            <Link
+                              href={`/business-cards/${card.id}`}
+                              className="inline-flex items-center justify-center rounded-full bg-primary px-3 py-1 text-[11px] font-medium text-primary-foreground shadow-sm hover:bg-primary/90"
+                            >
+                              Edit card
+                            </Link>
+                            <Link
+                              href={`/cards/${card.id}`}
+                              className="inline-flex items-center justify-center rounded-full border border-primary/40 bg-background px-3 py-1 text-[11px] font-medium text-primary hover:bg-primary/5"
+                            >
+                              Preview card
+                            </Link>
+                          </div>
                           <span className="text-[10px] text-muted-foreground">
                             Mock only, no real edits
                           </span>
