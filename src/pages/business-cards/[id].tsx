@@ -9,6 +9,7 @@ import {
   getStatusClasses,
   type BusinessCard,
   type AdminUser,
+  type SupportedLanguage,
 } from "@/components/admin/adminData";
 
 interface CardDetailsPageProps {
@@ -21,62 +22,119 @@ interface BusinessCardForm {
   title: string;
   company: string;
   bio: string;
+  email: string;
+  phone: string;
   website: string;
   linkedin: string;
   twitter: string;
+  profileImageUrl: string;
+  coverImageUrl: string;
+  youtubeUrl: string;
+}
+
+const languages: SupportedLanguage[] = ["vi", "en", "zh"];
+
+const emptyForm: BusinessCardForm = {
+  name: "",
+  title: "",
+  company: "",
+  bio: "",
+  email: "",
+  phone: "",
+  website: "",
+  linkedin: "",
+  twitter: "",
+  profileImageUrl: "",
+  coverImageUrl: "",
+  youtubeUrl: "",
+};
+
+function createInitialForms(card: BusinessCard | null): Record<SupportedLanguage, BusinessCardForm> {
+  if (!card) {
+    return {
+      vi: { ...emptyForm },
+      en: { ...emptyForm },
+      zh: { ...emptyForm },
+    };
+  }
+
+  const mapLanguage = (language: SupportedLanguage): BusinessCardForm => {
+    const data = card.languages[language];
+
+    return {
+      name: data.name ?? "",
+      title: data.title ?? "",
+      company: data.company ?? "",
+      bio: data.bio ?? "",
+      email: data.email ?? "",
+      phone: data.phone ?? "",
+      website: data.website ?? "",
+      linkedin: data.linkedin ?? "",
+      twitter: data.twitter ?? "",
+      profileImageUrl: data.profileImageUrl ?? "",
+      coverImageUrl: data.coverImageUrl ?? "",
+      youtubeUrl: data.youtubeUrl ?? "",
+    };
+  };
+
+  return {
+    vi: mapLanguage("vi"),
+    en: mapLanguage("en"),
+    zh: mapLanguage("zh"),
+  };
 }
 
 const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }) => {
-  const [form, setForm] = useState<BusinessCardForm>(() => {
-    if (!card) {
-      return {
-        name: "",
-        title: "",
-        company: "",
-        bio: "",
-        website: "",
-        linkedin: "",
-        twitter: "",
-      };
-    }
+  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>(
+    card?.defaultLanguage ?? "vi"
+  );
 
-    return {
-      name: card.name,
-      title: card.title,
-      company: card.company,
-      bio: card.bio,
-      website: card.website ?? "",
-      linkedin: card.linkedin ?? "",
-      twitter: card.twitter ?? "",
-    };
-  });
+  const [forms, setForms] = useState<Record<SupportedLanguage, BusinessCardForm>>(
+    () => createInitialForms(card)
+  );
+
+  const activeForm: BusinessCardForm = forms[selectedLanguage];
 
   const linksCount: number = [
-    form.website,
-    form.linkedin,
-    form.twitter,
+    activeForm.website,
+    activeForm.linkedin,
+    activeForm.twitter,
+    activeForm.youtubeUrl,
   ].filter((value) => !!value && value.trim() !== "").length;
 
   const linksLabelParts: string[] = [];
-  if (form.website) {
+  if (activeForm.website) {
     linksLabelParts.push("Website");
   }
-  if (form.linkedin) {
+  if (activeForm.linkedin) {
     linksLabelParts.push("LinkedIn");
   }
-  if (form.twitter) {
+  if (activeForm.twitter) {
     linksLabelParts.push("X / Twitter");
   }
+  if (activeForm.youtubeUrl) {
+    linksLabelParts.push("YouTube");
+  }
+
+  const handleFieldChange = (field: keyof BusinessCardForm, value: string): void => {
+    setForms((current) => ({
+      ...current,
+      [selectedLanguage]: {
+        ...current[selectedLanguage],
+        [field]: value,
+      },
+    }));
+  };
 
   return (
     <>
       <SEO
         title={
           card
-            ? `Edit card – ${card.name}`
+            ? `Edit card – ${card.languages[card.defaultLanguage].name}`
             : "Business card not found – Admin Dashboard"
         }
-        description="Edit a digital business card for one of your users (mock data only, no persistence)."
+        description="Edit a multilingual digital business card for one of your users (mock data only, no persistence)."
       />
       <div className="min-h-screen bg-background text-foreground">
         <div className="flex min-h-screen">
@@ -136,7 +194,7 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                 </h1>
                 <p className="mt-1 text-xs text-muted-foreground md:text-sm">
                   {card
-                    ? "Adjust the details for this digital business card. Changes are local to this preview."
+                    ? "Adjust the details for this multilingual digital business card. Changes are local to this preview only."
                     : "The requested business card could not be found in the mock data."}
                 </p>
               </div>
@@ -165,51 +223,95 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                           Card preview
                         </h2>
                         <p className="mt-1 text-xs text-muted-foreground">
-                          Live preview of how this digital business card looks with the
-                          current values.
+                          Live preview for the currently selected language dataset.
                         </p>
                       </div>
-                      {owner ? (
-                        <span
-                          className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium md:text-xs ${getStatusClasses(
-                            owner.status
-                          )}`}
-                        >
-                          {owner.status === "active"
-                            ? "Active"
-                            : owner.status === "invited"
-                            ? "Invited"
-                            : "Suspended"}
-                        </span>
-                      ) : null}
+                      <div className="flex flex-col items-end gap-2">
+                        {owner ? (
+                          <span
+                            className={`inline-flex items-center rounded-full px-2 py-0.5 text-[10px] font-medium md:text-xs ${getStatusClasses(
+                              owner.status
+                            )}`}
+                          >
+                            {owner.status === "active"
+                              ? "Active"
+                              : owner.status === "invited"
+                              ? "Invited"
+                              : "Suspended"}
+                          </span>
+                        ) : null}
+                        <div className="inline-flex items-center gap-1 rounded-full bg-muted px-1 py-0.5 text-[10px] font-medium md:text-xs">
+                          {languages.map((language) => (
+                            <button
+                              key={language}
+                              type="button"
+                              onClick={() => setSelectedLanguage(language)}
+                              className={`rounded-full px-2 py-0.5 ${
+                                language === selectedLanguage
+                                  ? "bg-primary text-primary-foreground"
+                                  : "text-muted-foreground hover:text-foreground"
+                              }`}
+                            >
+                              {language.toUpperCase()}
+                            </button>
+                          ))}
+                        </div>
+                      </div>
                     </div>
 
-                    <div className="mt-3 rounded-lg border bg-background px-3 py-2 text-xs">
-                      <div className="flex items-center justify-between">
-                        <div>
+                    <div className="mt-3 overflow-hidden rounded-lg border bg-background">
+                      {activeForm.coverImageUrl ? (
+                        <div
+                          className="h-20 w-full bg-cover bg-center"
+                          style={{ backgroundImage: `url(${activeForm.coverImageUrl})` }}
+                        />
+                      ) : (
+                        <div className="h-20 w-full bg-muted" />
+                      )}
+                      <div className="flex items-center gap-3 px-3 py-2 text-xs">
+                        {activeForm.profileImageUrl ? (
+                          <div className="h-10 w-10 flex-shrink-0 overflow-hidden rounded-full border bg-muted">
+                            <img
+                              src={activeForm.profileImageUrl}
+                              alt={activeForm.name || "Profile"}
+                              className="h-full w-full object-cover"
+                            />
+                          </div>
+                        ) : (
+                          <div className="h-10 w-10 flex-shrink-0 rounded-full border bg-muted" />
+                        )}
+                        <div className="flex-1">
                           <div className="text-sm font-semibold">
-                            {form.name || card.name}
+                            {activeForm.name ||
+                              card.languages[selectedLanguage].name}
                           </div>
                           <div className="text-[11px] text-muted-foreground">
-                            {form.title || "Title"}
+                            {activeForm.title || "Title"}
                           </div>
-                        </div>
-                        <div className="text-right">
-                          <div className="text-[11px] font-medium text-muted-foreground">
-                            {form.company || "Company"}
-                          </div>
-                          <div className="mt-1 flex flex-wrap justify-end gap-1 text-[10px] text-primary">
-                            {form.website && <span>Website</span>}
-                            {form.linkedin && <span>LinkedIn</span>}
-                            {form.twitter && <span>Twitter</span>}
+                          <div className="text-[11px] text-muted-foreground">
+                            {activeForm.company || "Company"}
                           </div>
                         </div>
                       </div>
-                      {form.bio && (
-                        <p className="mt-2 text-[11px] text-muted-foreground">
-                          {form.bio}
+                      {activeForm.bio && (
+                        <p className="px-3 pb-2 text-[11px] text-muted-foreground">
+                          {activeForm.bio}
                         </p>
                       )}
+                      <div className="flex flex-wrap items-center justify-between gap-2 border-t px-3 py-2 text-[10px] text-muted-foreground">
+                        <div className="flex flex-wrap gap-1 text-primary">
+                          {activeForm.website && <span>Website</span>}
+                          {activeForm.linkedin && <span>LinkedIn</span>}
+                          {activeForm.twitter && <span>X / Twitter</span>}
+                          {activeForm.youtubeUrl && <span>YouTube</span>}
+                        </div>
+                        <div>
+                          {linksCount} link{linksCount === 1 ? "" : "s"}
+                          {linksLabelParts.length > 0
+                            ? ` · ${linksLabelParts.join(" · ")}`
+                            : ""}
+                        </div>
+                      </div>
                     </div>
 
                     {owner && (
@@ -222,8 +324,7 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                             {getPlanLabel(owner.plan)}
                           </span>
                           <span className="text-[10px]">
-                            {linksCount} link{linksCount === 1 ? "" : "s"} ·{" "}
-                            {linksLabelParts.join(" · ") || "No links"}
+                            Active language: {selectedLanguage.toUpperCase()}
                           </span>
                         </div>
                       </div>
@@ -231,147 +332,238 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                   </div>
 
                   <div className="rounded-xl border bg-card p-4 shadow-sm lg:col-span-3">
-                    <div className="border-b pb-3">
-                      <h2 className="text-sm font-semibold md:text-base">
-                        Edit card details (mock)
-                      </h2>
-                      <p className="mt-1 text-xs text-muted-foreground">
-                        This form updates the preview only. No data is saved to any
-                        backend or database.
-                      </p>
+                    <div className="flex items-start justify-between gap-2 border-b pb-3">
+                      <div>
+                        <h2 className="text-sm font-semibold md:text-base">
+                          Edit card details (mock)
+                        </h2>
+                        <p className="mt-1 text-xs text-muted-foreground">
+                          Edit contact, social, and media fields for each language. These
+                          changes only affect the preview in your browser; nothing is saved
+                          to a backend.
+                        </p>
+                      </div>
+                      <div className="inline-flex items-center gap-1 rounded-full bg-muted px-1 py-0.5 text-[10px] font-medium md:text-xs">
+                        {languages.map((language) => (
+                          <button
+                            key={language}
+                            type="button"
+                            onClick={() => setSelectedLanguage(language)}
+                            className={`rounded-full px-2 py-0.5 ${
+                              language === selectedLanguage
+                                ? "bg-primary text-primary-foreground"
+                                : "text-muted-foreground hover:text-foreground"
+                            }`}
+                          >
+                            {language.toUpperCase()}
+                          </button>
+                        ))}
+                      </div>
                     </div>
 
-                    <form className="mt-4 space-y-3 text-xs">
-                      <div className="grid gap-3 md:grid-cols-2">
-                        <div className="space-y-1">
+                    <form className="mt-4 space-y-4 text-xs">
+                      <div>
+                        <div className="text-[11px] font-semibold text-muted-foreground">
+                          Contact information
+                        </div>
+                        <div className="mt-2 grid gap-3 md:grid-cols-2">
+                          <div className="space-y-1">
+                            <label className="block text-[11px] font-medium text-muted-foreground">
+                              Name
+                            </label>
+                            <input
+                              type="text"
+                              value={activeForm.name}
+                              onChange={(event) =>
+                                handleFieldChange("name", event.target.value)
+                              }
+                              className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
+                              placeholder={card.languages[selectedLanguage].name}
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="block text-[11px] font-medium text-muted-foreground">
+                              Title
+                            </label>
+                            <input
+                              type="text"
+                              value={activeForm.title}
+                              onChange={(event) =>
+                                handleFieldChange("title", event.target.value)
+                              }
+                              className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
+                              placeholder={card.languages[selectedLanguage].title}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="mt-3 grid gap-3 md:grid-cols-2">
+                          <div className="space-y-1">
+                            <label className="block text-[11px] font-medium text-muted-foreground">
+                              Company
+                            </label>
+                            <input
+                              type="text"
+                              value={activeForm.company}
+                              onChange={(event) =>
+                                handleFieldChange("company", event.target.value)
+                              }
+                              className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
+                              placeholder={card.languages[selectedLanguage].company}
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="block text-[11px] font-medium text-muted-foreground">
+                              Email
+                            </label>
+                            <input
+                              type="email"
+                              value={activeForm.email}
+                              onChange={(event) =>
+                                handleFieldChange("email", event.target.value)
+                              }
+                              className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
+                              placeholder="name@company.com"
+                            />
+                          </div>
+                        </div>
+
+                        <div className="mt-3 space-y-1">
                           <label className="block text-[11px] font-medium text-muted-foreground">
-                            Name
+                            Phone
                           </label>
                           <input
-                            type="text"
-                            value={form.name}
+                            type="tel"
+                            value={activeForm.phone}
                             onChange={(event) =>
-                              setForm((current) => ({
-                                ...current,
-                                name: event.target.value,
-                              }))
+                              handleFieldChange("phone", event.target.value)
                             }
                             className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
-                            placeholder={card.name}
+                            placeholder="+84 ..."
                           />
                         </div>
-                        <div className="space-y-1">
+
+                        <div className="mt-3 space-y-1">
                           <label className="block text-[11px] font-medium text-muted-foreground">
-                            Title
+                            Short bio
                           </label>
-                          <input
-                            type="text"
-                            value={form.title}
+                          <textarea
+                            value={activeForm.bio}
                             onChange={(event) =>
-                              setForm((current) => ({
-                                ...current,
-                                title: event.target.value,
-                              }))
+                              handleFieldChange("bio", event.target.value)
                             }
-                            className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
-                            placeholder={card.title || "Role or position"}
+                            rows={3}
+                            className="w-full rounded-md border bg-background px-2 py-1.5 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
+                            placeholder="One or two lines about this person in the selected language."
                           />
                         </div>
                       </div>
 
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-medium text-muted-foreground">
-                          Company
-                        </label>
-                        <input
-                          type="text"
-                          value={form.company}
-                          onChange={(event) =>
-                            setForm((current) => ({
-                              ...current,
-                              company: event.target.value,
-                            }))
-                          }
-                          className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
-                          placeholder={card.company || "Company name"}
-                        />
-                      </div>
+                      <div>
+                        <div className="text-[11px] font-semibold text-muted-foreground">
+                          Social links
+                        </div>
+                        <div className="mt-2 grid gap-3 md:grid-cols-3">
+                          <div className="space-y-1">
+                            <label className="block text-[11px] font-medium text-muted-foreground">
+                              Website
+                            </label>
+                            <input
+                              type="url"
+                              value={activeForm.website}
+                              onChange={(event) =>
+                                handleFieldChange("website", event.target.value)
+                              }
+                              className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
+                              placeholder="https://"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="block text-[11px] font-medium text-muted-foreground">
+                              LinkedIn
+                            </label>
+                            <input
+                              type="url"
+                              value={activeForm.linkedin}
+                              onChange={(event) =>
+                                handleFieldChange("linkedin", event.target.value)
+                              }
+                              className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
+                              placeholder="Profile URL"
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="block text-[11px] font-medium text-muted-foreground">
+                              X / Twitter
+                            </label>
+                            <input
+                              type="url"
+                              value={activeForm.twitter}
+                              onChange={(event) =>
+                                handleFieldChange("twitter", event.target.value)
+                              }
+                              className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
+                              placeholder="@handle or URL"
+                            />
+                          </div>
+                        </div>
 
-                      <div className="space-y-1">
-                        <label className="block text-[11px] font-medium text-muted-foreground">
-                          Short bio
-                        </label>
-                        <textarea
-                          value={form.bio}
-                          onChange={(event) =>
-                            setForm((current) => ({
-                              ...current,
-                              bio: event.target.value,
-                            }))
-                          }
-                          rows={3}
-                          className="w-full rounded-md border bg-background px-2 py-1.5 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
-                          placeholder={card.bio || "One or two lines about this person."}
-                        />
-                      </div>
-
-                      <div className="grid gap-3 md:grid-cols-3">
-                        <div className="space-y-1">
+                        <div className="mt-3 space-y-1">
                           <label className="block text-[11px] font-medium text-muted-foreground">
-                            Website
+                            YouTube video URL
                           </label>
                           <input
                             type="url"
-                            value={form.website}
+                            value={activeForm.youtubeUrl}
                             onChange={(event) =>
-                              setForm((current) => ({
-                                ...current,
-                                website: event.target.value,
-                              }))
+                              handleFieldChange("youtubeUrl", event.target.value)
                             }
                             className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
-                            placeholder={card.website || "https://"}
+                            placeholder="https://www.youtube.com/watch?v=..."
                           />
                         </div>
-                        <div className="space-y-1">
-                          <label className="block text-[11px] font-medium text-muted-foreground">
-                            LinkedIn
-                          </label>
-                          <input
-                            type="url"
-                            value={form.linkedin}
-                            onChange={(event) =>
-                              setForm((current) => ({
-                                ...current,
-                                linkedin: event.target.value,
-                              }))
-                            }
-                            className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
-                            placeholder={card.linkedin || "Profile URL"}
-                          />
+                      </div>
+
+                      <div>
+                        <div className="text-[11px] font-semibold text-muted-foreground">
+                          Media
                         </div>
-                        <div className="space-y-1">
-                          <label className="block text-[11px] font-medium text-muted-foreground">
-                            X / Twitter
-                          </label>
-                          <input
-                            type="url"
-                            value={form.twitter}
-                            onChange={(event) =>
-                              setForm((current) => ({
-                                ...current,
-                                twitter: event.target.value,
-                              }))
-                            }
-                            className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
-                            placeholder={card.twitter || "@handle or URL"}
-                          />
+                        <div className="mt-2 grid gap-3 md:grid-cols-2">
+                          <div className="space-y-1">
+                            <label className="block text-[11px] font-medium text-muted-foreground">
+                              Profile image URL
+                            </label>
+                            <input
+                              type="url"
+                              value={activeForm.profileImageUrl}
+                              onChange={(event) =>
+                                handleFieldChange("profileImageUrl", event.target.value)
+                              }
+                              className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
+                              placeholder="https://images.unsplash.com/..."
+                            />
+                          </div>
+                          <div className="space-y-1">
+                            <label className="block text-[11px] font-medium text-muted-foreground">
+                              Cover image URL
+                            </label>
+                            <input
+                              type="url"
+                              value={activeForm.coverImageUrl}
+                              onChange={(event) =>
+                                handleFieldChange("coverImageUrl", event.target.value)
+                              }
+                              className="h-8 w-full rounded-md border bg-background px-2 text-xs outline-none placeholder:text-muted-foreground focus-visible:ring-2 focus-visible:ring-primary/40"
+                              placeholder="https://images.unsplash.com/..."
+                            />
+                          </div>
                         </div>
                       </div>
 
                       <div className="flex items-center justify-between pt-1 text-[11px] text-muted-foreground">
                         <span>
-                          This is a mock form. Refreshing the page will reset any changes.
+                          This is a mock form. Refreshing the page will reset any changes
+                          for all languages.
                         </span>
                         <span>No data is written to a backend.</span>
                       </div>
@@ -393,9 +585,7 @@ export const getServerSideProps: GetServerSideProps<CardDetailsPageProps> = asyn
   context
 ) => {
   const idParam: string | string[] | undefined = context.params?.id;
-  const id: number = Number(
-    Array.isArray(idParam) ? idParam[0] : idParam
-  );
+  const id: number = Number(Array.isArray(idParam) ? idParam[0] : idParam);
 
   if (!id || Number.isNaN(id)) {
     return {

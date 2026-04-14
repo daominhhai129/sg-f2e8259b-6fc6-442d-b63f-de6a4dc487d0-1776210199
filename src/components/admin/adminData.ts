@@ -13,16 +13,28 @@ export interface AdminUser {
   lastActive: string;
 }
 
-export interface BusinessCard {
-  id: number;
-  userId: number;
+export type SupportedLanguage = "vi" | "en" | "zh";
+
+export interface BusinessCardLanguageData {
   name: string;
   title: string;
   company: string;
   bio: string;
+  email: string;
+  phone: string;
   website?: string;
   linkedin?: string;
   twitter?: string;
+  profileImageUrl?: string;
+  coverImageUrl?: string;
+  youtubeUrl?: string;
+}
+
+export interface BusinessCard {
+  id: number;
+  userId: number;
+  defaultLanguage: SupportedLanguage;
+  languages: Record<SupportedLanguage, BusinessCardLanguageData>;
 }
 
 export const usersMock: AdminUser[] = [
@@ -82,35 +94,167 @@ export const businessCardsMock: BusinessCard[] = [
   {
     id: 1,
     userId: 1,
-    name: "Alex Johnson",
-    title: "Founder & CEO",
-    company: "Northwind Studio",
-    bio: "Helps teams create memorable digital business card experiences.",
-    website: "https://alexjohnson.me",
-    linkedin: "https://linkedin.com/in/alexjohnson",
-    twitter: "https://twitter.com/alexjohnson",
+    defaultLanguage: "en",
+    languages: {
+      vi: {
+        name: "Alex Johnson",
+        title: "Người sáng lập & CEO",
+        company: "Northwind Studio",
+        bio: "Hỗ trợ các đội nhóm tạo trải nghiệm danh thiếp số ấn tượng.",
+        email: "alex.johnson@example.com",
+        phone: "+84 90 000 0001",
+        website: "https://alexjohnson.me",
+        linkedin: "https://linkedin.com/in/alexjohnson",
+        twitter: "https://twitter.com/alexjohnson",
+        profileImageUrl:
+          "https://images.unsplash.com/photo-1544723795-3fb6469f5b39",
+        coverImageUrl:
+          "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+        youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      },
+      en: {
+        name: "Alex Johnson",
+        title: "Founder & CEO",
+        company: "Northwind Studio",
+        bio: "Helps teams create memorable digital business card experiences.",
+        email: "alex.johnson@example.com",
+        phone: "+1 (555) 000-0001",
+        website: "https://alexjohnson.me",
+        linkedin: "https://linkedin.com/in/alexjohnson",
+        twitter: "https://twitter.com/alexjohnson",
+        profileImageUrl:
+          "https://images.unsplash.com/photo-1544723795-3fb6469f5b39",
+        coverImageUrl:
+          "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+        youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      },
+      zh: {
+        name: "Alex Johnson",
+        title: "创始人兼首席执行官",
+        company: "Northwind Studio",
+        bio: "帮助团队打造令人难忘的数字名片体验。",
+        email: "alex.johnson@example.com",
+        phone: "+86 10 0000 0001",
+        website: "https://alexjohnson.me",
+        linkedin: "https://linkedin.com/in/alexjohnson",
+        twitter: "https://twitter.com/alexjohnson",
+        profileImageUrl:
+          "https://images.unsplash.com/photo-1544723795-3fb6469f5b39",
+        coverImageUrl:
+          "https://images.unsplash.com/photo-1521737604893-d14cc237f11d",
+        youtubeUrl: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+      },
+    },
   },
   {
     id: 2,
     userId: 2,
-    name: "Maria Lopez",
-    title: "Product Designer",
-    company: "Pixelworks",
-    bio: "Designing simple, human interfaces for complex products.",
-    website: "https://marialopez.design",
-    linkedin: "https://linkedin.com/in/marialopez",
-    twitter: "",
+    defaultLanguage: "vi",
+    languages: {
+      vi: {
+        name: "Maria Lopez",
+        title: "Nhà thiết kế sản phẩm",
+        company: "Pixelworks",
+        bio: "Thiết kế giao diện đơn giản, thân thiện cho sản phẩm phức tạp.",
+        email: "maria.lopez@example.com",
+        phone: "+84 90 000 0002",
+        website: "https://marialopez.design",
+        linkedin: "https://linkedin.com/in/marialopez",
+        twitter: "",
+        profileImageUrl:
+          "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+        coverImageUrl:
+          "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4",
+        youtubeUrl: "",
+      },
+      en: {
+        name: "Maria Lopez",
+        title: "Product Designer",
+        company: "Pixelworks",
+        bio: "Designing simple, human interfaces for complex products.",
+        email: "maria.lopez@example.com",
+        phone: "+1 (555) 000-0002",
+        website: "https://marialopez.design",
+        linkedin: "https://linkedin.com/in/marialopez",
+        twitter: "",
+        profileImageUrl:
+          "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+        coverImageUrl:
+          "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4",
+        youtubeUrl: "",
+      },
+      zh: {
+        name: "Maria Lopez",
+        title: "产品设计师",
+        company: "Pixelworks",
+        bio: "为复杂产品设计简洁且以人为本的界面。",
+        email: "maria.lopez@example.com",
+        phone: "+86 10 0000 0002",
+        website: "https://marialopez.design",
+        linkedin: "https://linkedin.com/in/marialopez",
+        twitter: "",
+        profileImageUrl:
+          "https://images.unsplash.com/photo-1544005313-94ddf0286df2",
+        coverImageUrl:
+          "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4",
+        youtubeUrl: "",
+      },
+    },
   },
   {
     id: 3,
     userId: 4,
-    name: "Sofia Rossi",
-    title: "Account Executive",
-    company: "Acme Corp",
-    bio: "Connecting brands with the right digital identity.",
-    website: "",
-    linkedin: "https://linkedin.com/in/sofiarossi",
-    twitter: "",
+    defaultLanguage: "zh",
+    languages: {
+      vi: {
+        name: "Sofia Rossi",
+        title: "Chuyên viên kinh doanh",
+        company: "Acme Corp",
+        bio: "Kết nối thương hiệu với bản sắc số phù hợp.",
+        email: "sofia.rossi@example.com",
+        phone: "+84 90 000 0003",
+        website: "",
+        linkedin: "https://linkedin.com/in/sofiarossi",
+        twitter: "",
+        profileImageUrl:
+          "https://images.unsplash.com/photo-1544723795-432537dcfb11",
+        coverImageUrl:
+          "https://images.unsplash.com/photo-1515165562835-c4c9e0737eaa",
+        youtubeUrl: "",
+      },
+      en: {
+        name: "Sofia Rossi",
+        title: "Account Executive",
+        company: "Acme Corp",
+        bio: "Connecting brands with the right digital identity.",
+        email: "sofia.rossi@example.com",
+        phone: "+1 (555) 000-0003",
+        website: "",
+        linkedin: "https://linkedin.com/in/sofiarossi",
+        twitter: "",
+        profileImageUrl:
+          "https://images.unsplash.com/photo-1544723795-432537dcfb11",
+        coverImageUrl:
+          "https://images.unsplash.com/photo-1515165562835-c4c9e0737eaa",
+        youtubeUrl: "",
+      },
+      zh: {
+        name: "Sofia Rossi",
+        title: "客户经理",
+        company: "Acme Corp",
+        bio: "为品牌匹配合适的数字身份。",
+        email: "sofia.rossi@example.com",
+        phone: "+86 10 0000 0003",
+        website: "",
+        linkedin: "https://linkedin.com/in/sofiarossi",
+        twitter: "",
+        profileImageUrl:
+          "https://images.unsplash.com/photo-1544723795-432537dcfb11",
+        coverImageUrl:
+          "https://images.unsplash.com/photo-1515165562835-c4c9e0737eaa",
+        youtubeUrl: "",
+      },
+    },
   },
 ];
 

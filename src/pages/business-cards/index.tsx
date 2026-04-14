@@ -110,21 +110,28 @@ const BusinessCardsPage: NextPage = () => {
                       (user) => user.id === card.userId
                     );
 
+                    const primaryLanguage = card.defaultLanguage;
+                    const content = card.languages[primaryLanguage];
+
                     const linksCount: number = [
-                      card.website,
-                      card.linkedin,
-                      card.twitter,
+                      content.website,
+                      content.linkedin,
+                      content.twitter,
+                      content.youtubeUrl,
                     ].filter((value) => !!value && value.trim() !== "").length;
 
                     const linksLabelParts: string[] = [];
-                    if (card.website) {
+                    if (content.website) {
                       linksLabelParts.push("Website");
                     }
-                    if (card.linkedin) {
+                    if (content.linkedin) {
                       linksLabelParts.push("LinkedIn");
                     }
-                    if (card.twitter) {
+                    if (content.twitter) {
                       linksLabelParts.push("X / Twitter");
+                    }
+                    if (content.youtubeUrl) {
+                      linksLabelParts.push("YouTube");
                     }
 
                     return (
@@ -135,9 +142,11 @@ const BusinessCardsPage: NextPage = () => {
                         <div className="space-y-2">
                           <div className="flex items-start justify-between gap-2">
                             <div>
-                              <div className="text-sm font-semibold">{card.name}</div>
+                              <div className="text-sm font-semibold">
+                                {content.name}
+                              </div>
                               <div className="text-[11px] text-muted-foreground">
-                                Primary digital business card
+                                Primary digital business card · {primaryLanguage.toUpperCase()}
                               </div>
                             </div>
                             {owner ? (
@@ -157,10 +166,10 @@ const BusinessCardsPage: NextPage = () => {
 
                           <div>
                             <div className="text-xs md:text-sm">
-                              {card.title || "—"}
+                              {content.title || "—"}
                             </div>
                             <div className="text-[11px] text-muted-foreground">
-                              {card.company || "—"}
+                              {content.company || "—"}
                             </div>
                           </div>
 
