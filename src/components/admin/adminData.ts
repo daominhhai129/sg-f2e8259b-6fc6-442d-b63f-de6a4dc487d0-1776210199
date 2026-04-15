@@ -43,6 +43,9 @@ export interface BusinessCardLanguageContent {
   address2: string;
   profileImageUrl: string;
   coverImageUrl: string;
+  aboutMedia1: string;
+  aboutMedia2: string;
+  aboutMedia3: string;
 }
 
 export interface BusinessCard {
@@ -139,6 +142,9 @@ export const businessCardsMock: BusinessCard[] = [
         address2: "",
         profileImageUrl: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=300&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+        aboutMedia1: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=300&q=80",
+        aboutMedia2: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=300&q=80",
+        aboutMedia3: "https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?auto=format&fit=crop&w=300&q=80",
       },
       en: {
         name: "Alex Johnson",
@@ -168,6 +174,9 @@ export const businessCardsMock: BusinessCard[] = [
         address2: "",
         profileImageUrl: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=300&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+        aboutMedia1: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=300&q=80",
+        aboutMedia2: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=300&q=80",
+        aboutMedia3: "https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?auto=format&fit=crop&w=300&q=80",
       },
       zh: {
         name: "Alex Johnson",
@@ -197,6 +206,9 @@ export const businessCardsMock: BusinessCard[] = [
         address2: "",
         profileImageUrl: "https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=300&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80",
+        aboutMedia1: "https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=300&q=80",
+        aboutMedia2: "https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=300&q=80",
+        aboutMedia3: "https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?auto=format&fit=crop&w=300&q=80",
       },
     },
   },
@@ -233,6 +245,9 @@ export const businessCardsMock: BusinessCard[] = [
         address2: "",
         profileImageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+        aboutMedia1: "",
+        aboutMedia2: "",
+        aboutMedia3: "",
       },
       en: {
         name: "Sarah Chen",
@@ -262,6 +277,9 @@ export const businessCardsMock: BusinessCard[] = [
         address2: "",
         profileImageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+        aboutMedia1: "",
+        aboutMedia2: "",
+        aboutMedia3: "",
       },
       zh: {
         name: "Sarah Chen",
@@ -291,6 +309,9 @@ export const businessCardsMock: BusinessCard[] = [
         address2: "",
         profileImageUrl: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=300&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+        aboutMedia1: "",
+        aboutMedia2: "",
+        aboutMedia3: "",
       },
     },
   },
@@ -327,6 +348,9 @@ export const businessCardsMock: BusinessCard[] = [
         address2: "",
         profileImageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=80",
+        aboutMedia1: "",
+        aboutMedia2: "",
+        aboutMedia3: "",
       },
       en: {
         name: "Michael Rodriguez",
@@ -356,6 +380,9 @@ export const businessCardsMock: BusinessCard[] = [
         address2: "",
         profileImageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=80",
+        aboutMedia1: "",
+        aboutMedia2: "",
+        aboutMedia3: "",
       },
       zh: {
         name: "Michael Rodriguez",
@@ -385,6 +412,9 @@ export const businessCardsMock: BusinessCard[] = [
         address2: "",
         profileImageUrl: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80",
         coverImageUrl: "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=800&q=80",
+        aboutMedia1: "",
+        aboutMedia2: "",
+        aboutMedia3: "",
       },
     },
   },
