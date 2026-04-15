@@ -107,7 +107,7 @@ const BusinessCardsPage: NextPage = () => {
                 <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                   {businessCardsMock.map((card: BusinessCard) => {
                     const owner: AdminUser | undefined = usersMock.find(
-                      (user) => user.id === card.userId
+                      (user) => user.id === card.ownerId
                     );
 
                     const primaryLanguage = card.defaultLanguage;

@@ -464,9 +464,9 @@ export const getServerSideProps: GetServerSideProps<CardPreviewPageProps> = asyn
   const card: BusinessCard | undefined = businessCardsMock.find(
     (item) => item.id === id
   );
-  const owner: AdminUser | undefined = card
-    ? usersMock.find((user) => user.id === card.userId)
-    : undefined;
+  const owner: AdminUser | undefined = usersMock.find(
+    (u) => u.id === card.ownerId
+  );
 
   return {
     props: {

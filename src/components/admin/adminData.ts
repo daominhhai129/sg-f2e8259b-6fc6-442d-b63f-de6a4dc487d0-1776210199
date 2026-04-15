@@ -108,7 +108,7 @@ export const usersMock: AdminUser[] = [
 export const businessCardsMock: BusinessCard[] = [
   {
     id: 1,
-    userId: 1,
+    ownerId: 1,
     defaultLanguage: "en",
     languages: {
       vi: {
@@ -202,7 +202,7 @@ export const businessCardsMock: BusinessCard[] = [
   },
   {
     id: 2,
-    userId: 2,
+    ownerId: 2,
     defaultLanguage: "vi",
     languages: {
       vi: {
@@ -296,7 +296,7 @@ export const businessCardsMock: BusinessCard[] = [
   },
   {
     id: 3,
-    userId: 4,
+    ownerId: 4,
     defaultLanguage: "zh",
     languages: {
       vi: {

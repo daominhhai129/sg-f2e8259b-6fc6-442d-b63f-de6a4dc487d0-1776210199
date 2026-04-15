@@ -1124,7 +1124,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const owner: AdminUser | undefined = usersMock.find(
-    (u) => u.id === card.userId
+    (u) => u.id === card.ownerId
   );
 
   return {
