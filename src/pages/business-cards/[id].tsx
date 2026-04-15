@@ -1111,7 +1111,7 @@ export const getServerSideProps: GetServerSideProps<
   const cardId: string = context.params?.id as string;
 
   const card: BusinessCard | undefined = businessCardsMock.find(
-    (c) => c.id === cardId
+    (c) => c.id === parseInt(cardId, 10)
   );
 
   if (!card) {
@@ -1124,7 +1124,7 @@ export const getServerSideProps: GetServerSideProps<
   }
 
   const owner: AdminUser | undefined = usersMock.find(
-    (u) => u.id === card.ownerId
+    (u) => u.id === card.userId
   );
 
   return {

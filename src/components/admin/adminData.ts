@@ -47,9 +47,9 @@ export interface BusinessCardLanguageContent {
 
 export interface BusinessCard {
   id: number;
-  userId: number;
+  ownerId: number;
   defaultLanguage: SupportedLanguage;
-  languages: Record<SupportedLanguage, BusinessCardLanguageData>;
+  languages: Record<SupportedLanguage, BusinessCardLanguageContent>;
 }
 
 export const usersMock: AdminUser[] = [
