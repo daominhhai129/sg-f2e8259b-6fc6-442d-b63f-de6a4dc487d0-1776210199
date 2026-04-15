@@ -299,10 +299,7 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
     }));
   };
 
-  const handleImageUpload = (
-    field: "profileImageUrl" | "coverImageUrl",
-    file: File
-  ): void => {
+  const handleImageUpload = (field: keyof BusinessCardForm, file: File): void => {
     if (!file.type.startsWith("image/")) {
       alert("Please upload an image file");
       return;
@@ -969,16 +966,33 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                           </div>
                           <div>
                             <label className="text-[11px] font-medium text-muted-foreground">
-                              WeChat QR Code URL
+                              WeChat QR Code
                             </label>
-                            <input
-                              type="url"
-                              value={activeForm.wechatQr}
-                              onChange={(e) =>
-                                handleFieldChange("wechatQr", e.target.value)
-                              }
-                              className="mt-1 w-full rounded-md border bg-background px-3 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                            />
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={activeForm.wechatQr}
+                                onChange={(e) =>
+                                  handleFieldChange("wechatQr", e.target.value)
+                                }
+                                placeholder="QR code image URL"
+                                className="flex-1 rounded-lg border bg-background px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                              />
+                              <label className="inline-flex cursor-pointer items-center justify-center rounded-lg border bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90">
+                                Upload
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      handleImageUpload("wechatQr", file);
+                                    }
+                                  }}
+                                />
+                              </label>
+                            </div>
                           </div>
                           <div>
                             <label className="text-[11px] font-medium text-muted-foreground">
@@ -995,16 +1009,33 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                           </div>
                           <div>
                             <label className="text-[11px] font-medium text-muted-foreground">
-                              Kakao QR Code URL
+                              Kakao QR Code
                             </label>
-                            <input
-                              type="url"
-                              value={activeForm.kakaoQr}
-                              onChange={(e) =>
-                                handleFieldChange("kakaoQr", e.target.value)
-                              }
-                              className="mt-1 w-full rounded-md border bg-background px-3 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                            />
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={activeForm.kakaoQr}
+                                onChange={(e) =>
+                                  handleFieldChange("kakaoQr", e.target.value)
+                                }
+                                placeholder="QR code image URL"
+                                className="flex-1 rounded-lg border bg-background px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                              />
+                              <label className="inline-flex cursor-pointer items-center justify-center rounded-lg border bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90">
+                                Upload
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      handleImageUpload("kakaoQr", file);
+                                    }
+                                  }}
+                                />
+                              </label>
+                            </div>
                           </div>
                           <div>
                             <label className="text-[11px] font-medium text-muted-foreground">
@@ -1021,16 +1052,33 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                           </div>
                           <div>
                             <label className="text-[11px] font-medium text-muted-foreground">
-                              Zalo QR Code URL
+                              Zalo QR Code
                             </label>
-                            <input
-                              type="url"
-                              value={activeForm.zaloQr}
-                              onChange={(e) =>
-                                handleFieldChange("zaloQr", e.target.value)
-                              }
-                              className="mt-1 w-full rounded-md border bg-background px-3 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                            />
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={activeForm.zaloQr}
+                                onChange={(e) =>
+                                  handleFieldChange("zaloQr", e.target.value)
+                                }
+                                placeholder="QR code image URL"
+                                className="flex-1 rounded-lg border bg-background px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                              />
+                              <label className="inline-flex cursor-pointer items-center justify-center rounded-lg border bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90">
+                                Upload
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      handleImageUpload("zaloQr", file);
+                                    }
+                                  }}
+                                />
+                              </label>
+                            </div>
                           </div>
                           <div>
                             <label className="text-[11px] font-medium text-muted-foreground">
