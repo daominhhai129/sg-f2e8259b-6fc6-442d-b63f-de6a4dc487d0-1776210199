@@ -35,9 +35,7 @@ const sections: { id: CardSection; label: string }[] = [
 ];
 
 const CardPreviewPage: NextPage<CardPreviewPageProps> = ({ card, owner }) => {
-  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>(
-    card?.defaultLanguage ?? "vi"
-  );
+  const [selectedLanguage, setSelectedLanguage] = useState<SupportedLanguage>("vi");
   const [activeSection, setActiveSection] = useState<CardSection>("home");
 
   if (!card) {

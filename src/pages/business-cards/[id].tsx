@@ -1088,41 +1088,6 @@ const CardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }) => {
                     </div>
                   </div>
 
-                  <div className="rounded-xl border bg-card p-4 shadow-sm">
-                    <div className="mb-3 border-b pb-3">
-                      <div className="text-xs font-medium text-muted-foreground">
-                        Business info
-                      </div>
-                    </div>
-
-                    <div className="grid gap-3 sm:grid-cols-2">
-                      <div>
-                        <label className="mb-1 block text-xs font-medium text-foreground">
-                          Tax Info
-                        </label>
-                        <input
-                          type="text"
-                          value={activeForm.taxInfo}
-                          onChange={(e) => handleFieldChange("taxInfo", e.target.value)}
-                          placeholder="VAT / Tax number"
-                          className="w-full rounded-lg border bg-background px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                        />
-                      </div>
-                      <div>
-                        <label className="mb-1 block text-xs font-medium text-foreground">
-                          Shopee
-                        </label>
-                        <input
-                          type="url"
-                          value={activeForm.shopee}
-                          onChange={(e) => handleFieldChange("shopee", e.target.value)}
-                          placeholder="https://shopee.vn/..."
-                          className="w-full rounded-lg border bg-background px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
                   <div className="rounded-lg border bg-muted/50 px-4 py-3 text-xs text-muted-foreground">
                     This is a mock form. Refreshing the page will reset any changes for all
                     languages.
