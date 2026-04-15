@@ -345,171 +345,58 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
                           </div>
                         </div>
 
-                        <div className="relative">
-                          {activeForm.coverImageUrl ? (
-                            <div
-                              className="h-32 w-full bg-cover bg-center"
-                              style={{ backgroundImage: `url(${activeForm.coverImageUrl})` }}
-                            />
-                          ) : (
-                            <div className="h-32 w-full bg-muted" />
-                          )}
-                        </div>
-
-                        <div className="px-4 pb-4 pt-10">
-                          <div className="flex justify-center">
-                            {activeForm.profileImageUrl ? (
-                              <div className="relative -mt-14 h-24 w-24 overflow-hidden rounded-full border-4 border-background bg-muted shadow-md">
-                                <img
-                                  src={activeForm.profileImageUrl}
-                                  alt={activeForm.name || "Profile"}
-                                  className="h-full w-full object-cover"
+                        {activeSection === "home" && (
+                          <>
+                            <div className="relative">
+                              {activeForm.coverImageUrl ? (
+                                <div
+                                  className="h-32 w-full bg-cover bg-center"
+                                  style={{ backgroundImage: `url(${activeForm.coverImageUrl})` }}
                                 />
+                              ) : (
+                                <div className="h-32 w-full bg-muted" />
+                              )}
+                            </div>
+
+                            <div className="px-4 pb-4 pt-10">
+                              <div className="flex justify-center">
+                                {activeForm.profileImageUrl ? (
+                                  <div className="relative -mt-14 h-24 w-24 overflow-hidden rounded-full border-4 border-background bg-muted shadow-md">
+                                    <img
+                                      src={activeForm.profileImageUrl}
+                                      alt={activeForm.name || "Profile"}
+                                      className="h-full w-full object-cover"
+                                    />
+                                  </div>
+                                ) : (
+                                  <div className="relative -mt-14 h-24 w-24 rounded-full border-4 border-background bg-muted shadow-md" />
+                                )}
                               </div>
-                            ) : (
-                              <div className="relative -mt-14 h-24 w-24 rounded-full border-4 border-background bg-muted shadow-md" />
-                            )}
-                          </div>
 
-                          <div className="mt-3 text-center">
-                            <div className="text-base font-semibold uppercase tracking-wide">
-                              {activeForm.name || card.languages[selectedLanguage].name}
+                              <div className="mt-3 text-center">
+                                <div className="text-base font-semibold uppercase tracking-wide">
+                                  {activeForm.name || card.languages[selectedLanguage].name}
+                                </div>
+                                <div className="mt-1 text-xs font-medium text-muted-foreground">
+                                  {activeForm.title || "Giám đốc"}
+                                </div>
+                                <div className="mt-0.5 text-[11px] text-muted-foreground">
+                                  {activeForm.company ||
+                                    card.languages[selectedLanguage].company}
+                                </div>
+                              </div>
                             </div>
-                            <div className="mt-1 text-xs font-medium text-muted-foreground">
-                              {activeForm.title || "Giám đốc"}
-                            </div>
-                            <div className="mt-0.5 text-[11px] text-muted-foreground">
-                              {activeForm.company ||
-                                card.languages[selectedLanguage].company}
-                            </div>
-                          </div>
+                          </>
+                        )}
 
+                        <div className={activeSection === "home" ? "px-4 pb-4" : "px-4 pb-4 pt-4"}>
                           <div className="mt-3 text-[11px] text-muted-foreground">
-                            {activeSection === "home" && (
-                              <p>
-                                Đây là bản xem trước màn hình liên hệ chính. Sử dụng form
-                                bên phải để điều chỉnh thông tin cho ngôn ngữ{" "}
-                                <span className="font-medium text-foreground">
-                                  {selectedLanguage.toUpperCase()}
-                                </span>
-                                .
-                              </p>
-                            )}
-                            {activeSection === "about" && (
-                              <>
-                                <p>
-                                  {activeForm.bio && activeForm.bio.trim() !== ""
-                                    ? activeForm.bio
-                                    : "Một đoạn giới thiệu ngắn cho hồ sơ này sẽ được hiển thị tại đây khi bạn nhập nội dung ở phần Short bio."}
-                                </p>
-                                <div className="mt-3 grid grid-cols-3 gap-2">
-                                  <div
-                                    className="h-16 rounded-md bg-cover bg-center"
-                                    style={{
-                                      backgroundImage:
-                                        "url(https://images.unsplash.com/photo-1519710164239-da123dc03ef4?auto=format&fit=crop&w=300&q=80)",
-                                    }}
-                                  />
-                                  <div
-                                    className="h-16 rounded-md bg-cover bg-center"
-                                    style={{
-                                      backgroundImage:
-                                        "url(https://images.unsplash.com/photo-1545239351-1141bd82e8a6?auto=format&fit=crop&w=300&q=80)",
-                                    }}
-                                  />
-                                  <div
-                                    className="h-16 rounded-md bg-cover bg-center"
-                                    style={{
-                                      backgroundImage:
-                                        "url(https://images.unsplash.com/photo-1525134479668-1bee5c7c6845?auto=format&fit=crop&w=300&q=80)",
-                                    }}
-                                  />
-                                </div>
-                              </>
-                            )}
-                            {activeSection === "video" && (
-                              <div className="space-y-3">
-                                <p>
-                                  Xem trước khu vực video cho card này. Nhập đường dẫn
-                                  YouTube ở phần &quot;YouTube video URL&quot; để dùng cho
-                                  chiến dịch thực tế.
-                                </p>
-                                <div className="space-y-3">
-                                  {[
-                                    "https://www.youtube.com/embed/dQw4w9WgXcQ",
-                                    "https://www.youtube.com/embed/oHg5SJYRHA0",
-                                    "https://www.youtube.com/embed/3GwjfUFyY6M",
-                                  ].map((src) => (
-                                    <div
-                                      key={src}
-                                      className="overflow-hidden rounded-lg border bg-black/90"
-                                    >
-                                      <iframe
-                                        src={src}
-                                        title="Promo video"
-                                        className="h-36 w-full"
-                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                                        allowFullScreen
-                                      />
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
-                            {activeSection === "shop" && (
-                              <div className="space-y-3">
-                                <p>
-                                  Mô phỏng khu vực giới thiệu gói dịch vụ hoặc sản phẩm để
-                                  gắn với card này.
-                                </p>
-                                <div className="grid gap-2">
-                                  {[
-                                    {
-                                      name: "Gói tư vấn tiêu chuẩn",
-                                      price: "1.500.000đ",
-                                      description: "Buổi tư vấn 1:1 trong 60 phút.",
-                                    },
-                                    {
-                                      name: "Gói dịch vụ premium",
-                                      price: "4.900.000đ",
-                                      description:
-                                        "Giải pháp trọn gói cho doanh nghiệp nhỏ.",
-                                    },
-                                    {
-                                      name: "Sản phẩm nổi bật",
-                                      price: "Liên hệ",
-                                      description:
-                                        "Tuỳ chỉnh theo nhu cầu từng khách hàng.",
-                                    },
-                                  ].map((product) => (
-                                    <div
-                                      key={product.name}
-                                      className="flex items-center justify-between rounded-lg border bg-card px-3 py-2 text-[11px] shadow-sm"
-                                    >
-                                      <div>
-                                        <div className="font-semibold text-foreground">
-                                          {product.name}
-                                        </div>
-                                        <div className="text-[10px] text-muted-foreground">
-                                          {product.description}
-                                        </div>
-                                      </div>
-                                      <div className="text-right">
-                                        <div className="text-xs font-semibold text-amber-700">
-                                          {product.price}
-                                        </div>
-                                        <button
-                                          type="button"
-                                          className="mt-1 inline-flex items-center rounded-full bg-primary px-2 py-0.5 text-[10px] font-medium text-primary-foreground"
-                                        >
-                                          Xem thêm
-                                        </button>
-                                      </div>
-                                    </div>
-                                  ))}
-                                </div>
-                              </div>
-                            )}
+                            Đây là bản xem trước màn hình liên hệ chính. Sử dụng form
+                            bên phải để điều chỉnh thông tin cho ngôn ngữ{" "}
+                            <span className="font-medium text-foreground">
+                              {selectedLanguage.toUpperCase()}
+                            </span>
+                            .
                           </div>
 
                           {activeSection === "home" && (
