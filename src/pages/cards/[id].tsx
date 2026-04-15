@@ -183,47 +183,66 @@ const CardPreviewPage: NextPage<CardPreviewPageProps> = ({ card, owner }) => {
               </div>
             </div>
 
-            <div className="relative">
-              {content.coverImageUrl ? (
-                <div
-                  className="h-32 w-full bg-cover bg-center"
-                  style={{ backgroundImage: `url(${content.coverImageUrl})` }}
-                />
-              ) : (
-                <div className="h-32 w-full bg-muted" />
-              )}
-            </div>
-
-            <div className="px-4 pb-5 pt-10">
-              <div className="flex justify-center">
-                {content.profileImageUrl ? (
-                  <div className="relative -mt-14 h-24 w-24 overflow-hidden rounded-full border-4 border-background bg-muted shadow-md">
-                    <img
-                      src={content.profileImageUrl}
-                      alt={content.name || "Profile"}
-                      className="h-full w-full object-cover"
+            {activeSection === "home" && (
+              <>
+                <div className="relative">
+                  {content.coverImageUrl ? (
+                    <div
+                      className="h-32 w-full bg-cover bg-center"
+                      style={{ backgroundImage: `url(${content.coverImageUrl})` }}
                     />
-                  </div>
-                ) : (
-                  <div className="relative -mt-14 h-24 w-24 rounded-full border-4 border-background bg-muted shadow-md" />
-                )}
-              </div>
+                  ) : (
+                    <div className="h-32 w-full bg-muted" />
+                  )}
+                </div>
 
-              {activeSection === "home" && (
-                <div className="mt-3 text-center">
-                  <div className="text-base font-semibold uppercase tracking-wide">
-                    {content.name}
+                <div className="px-4 pb-5 pt-10">
+                  <div className="flex justify-center">
+                    {content.profileImageUrl ? (
+                      <div className="relative -mt-14 h-24 w-24 overflow-hidden rounded-full border-4 border-background bg-muted shadow-md">
+                        <img
+                          src={content.profileImageUrl}
+                          alt={content.name || "Profile"}
+                          className="h-full w-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="relative -mt-14 h-24 w-24 rounded-full border-4 border-background bg-muted shadow-md" />
+                    )}
                   </div>
-                  <div className="mt-1 text-xs font-medium text-muted-foreground">
-                    {content.title}
+
+                  <div className="mt-3 text-center">
+                    <div className="text-base font-semibold uppercase tracking-wide">
+                      {content.name}
+                    </div>
+                    <div className="mt-1 text-xs font-medium text-muted-foreground">
+                      {content.title}
+                    </div>
+                    <div className="mt-0.5 text-[11px] text-muted-foreground">
+                      {content.company}
+                    </div>
                   </div>
-                  <div className="mt-0.5 text-[11px] text-muted-foreground">
-                    {content.company}
+
+                  <div className="mt-3 flex justify-center gap-2">
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center rounded-full bg-amber-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow hover:bg-amber-700"
+                    >
+                      Lưu danh bạ
+                    </button>
+                    <button
+                      type="button"
+                      className="inline-flex items-center justify-center rounded-full border border-amber-600 bg-background px-3 py-1.5 text-[11px] font-semibold text-amber-700 shadow-sm hover:bg-amber-50"
+                    >
+                      Quét mã QR
+                    </button>
                   </div>
                 </div>
-              )}
+              </>
+            )}
 
-              <div className="mt-3 text-[11px] text-muted-foreground">
+            <div className={activeSection === "home" ? "px-4 pb-4" : "px-4 pb-4 pt-4"}>
+              <div className="text-[11px] text-muted-foreground">
                 {activeSection === "home" && (
                   <p>
                     This is the main contact view for {content.name}. Use the buttons
@@ -265,23 +284,6 @@ const CardPreviewPage: NextPage<CardPreviewPageProps> = ({ card, owner }) => {
                   </div>
                 )}
               </div>
-
-              {activeSection === "home" && (
-                <div className="mt-3 flex justify-center gap-2">
-                  <button
-                    type="button"
-                    className="inline-flex items-center justify-center rounded-full bg-amber-600 px-3 py-1.5 text-[11px] font-semibold text-white shadow hover:bg-amber-700"
-                  >
-                    Lưu danh bạ
-                  </button>
-                  <button
-                    type="button"
-                    className="inline-flex items-center justify-center rounded-full border border-amber-600 bg-background px-3 py-1.5 text-[11px] font-semibold text-amber-700 shadow-sm hover:bg-amber-50"
-                  >
-                    Quét mã QR
-                  </button>
-                </div>
-              )}
 
               {activeSection === "about" && (
                 <>
