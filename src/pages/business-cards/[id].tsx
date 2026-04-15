@@ -299,6 +299,25 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
     }));
   };
 
+  const handleImageUpload = (
+    field: "profileImageUrl" | "coverImageUrl",
+    file: File
+  ): void => {
+    if (!file.type.startsWith("image/")) {
+      alert("Please upload an image file");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const result = e.target?.result;
+      if (typeof result === "string") {
+        handleFieldChange(field, result);
+      }
+    };
+    reader.readAsDataURL(file);
+  };
+
   if (!card || !owner) {
     return (
       <>
@@ -1031,58 +1050,66 @@ const BusinessCardDetailsPage: NextPage<CardDetailsPageProps> = ({ card, owner }
 
                       <div>
                         <div className="text-xs font-semibold">Media</div>
-                        <div className="mt-2 grid gap-3 md:grid-cols-2">
+                        <div className="mt-2 grid gap-3 sm:grid-cols-2">
                           <div>
-                            <label className="text-[11px] font-medium text-muted-foreground">
-                              Profile image URL
+                            <label className="mb-1 block text-xs font-medium text-foreground">
+                              Profile image
                             </label>
-                            <input
-                              type="url"
-                              value={activeForm.profileImageUrl}
-                              onChange={(e) =>
-                                handleFieldChange("profileImageUrl", e.target.value)
-                              }
-                              className="mt-1 w-full rounded-md border bg-background px-3 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                            />
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={activeForm.profileImageUrl}
+                                onChange={(e) =>
+                                  handleFieldChange("profileImageUrl", e.target.value)
+                                }
+                                placeholder="https://..."
+                                className="flex-1 rounded-lg border bg-background px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                              />
+                              <label className="inline-flex cursor-pointer items-center justify-center rounded-lg border bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90">
+                                Upload
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      handleImageUpload("profileImageUrl", file);
+                                    }
+                                  }}
+                                />
+                              </label>
+                            </div>
                           </div>
                           <div>
-                            <label className="text-[11px] font-medium text-muted-foreground">
-                              Cover image URL
+                            <label className="mb-1 block text-xs font-medium text-foreground">
+                              Cover image
                             </label>
-                            <input
-                              type="url"
-                              value={activeForm.coverImageUrl}
-                              onChange={(e) =>
-                                handleFieldChange("coverImageUrl", e.target.value)
-                              }
-                              className="mt-1 w-full rounded-md border bg-background px-3 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                            />
-                          </div>
-                          <div>
-                            <label className="text-[11px] font-medium text-muted-foreground">
-                              YouTube video URL
-                            </label>
-                            <input
-                              type="url"
-                              value={activeForm.youtubeUrl}
-                              onChange={(e) =>
-                                handleFieldChange("youtubeUrl", e.target.value)
-                              }
-                              className="mt-1 w-full rounded-md border bg-background px-3 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                            />
-                          </div>
-                          <div>
-                            <label className="text-[11px] font-medium text-muted-foreground">
-                              YouTube channel URL
-                            </label>
-                            <input
-                              type="url"
-                              value={activeForm.youtubeChannel}
-                              onChange={(e) =>
-                                handleFieldChange("youtubeChannel", e.target.value)
-                              }
-                              className="mt-1 w-full rounded-md border bg-background px-3 py-1.5 text-xs text-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
-                            />
+                            <div className="flex gap-2">
+                              <input
+                                type="text"
+                                value={activeForm.coverImageUrl}
+                                onChange={(e) =>
+                                  handleFieldChange("coverImageUrl", e.target.value)
+                                }
+                                placeholder="https://..."
+                                className="flex-1 rounded-lg border bg-background px-3 py-1.5 text-xs text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary"
+                              />
+                              <label className="inline-flex cursor-pointer items-center justify-center rounded-lg border bg-primary px-3 py-1.5 text-xs font-medium text-primary-foreground hover:bg-primary/90">
+                                Upload
+                                <input
+                                  type="file"
+                                  accept="image/*"
+                                  className="hidden"
+                                  onChange={(e) => {
+                                    const file = e.target.files?.[0];
+                                    if (file) {
+                                      handleImageUpload("coverImageUrl", file);
+                                    }
+                                  }}
+                                />
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
